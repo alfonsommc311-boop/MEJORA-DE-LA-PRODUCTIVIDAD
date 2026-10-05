@@ -118,6 +118,171 @@ footer{max-width:1100px;margin:0 auto;padding:0 16px 40px;color:var(--muted);fon
    CONTENIDO (extraído de los PDF del curso)
    ============================================================ */
 const TOPICS = [
+/* ---------------------------- S1 ---------------------------- */
+{
+ id:'S1', unit:'Unidad 1', title:'Sesión I (sincrónica): de Ford a Lean',
+ sub:'Fundamentos de producción, origen de Lean y lado humano · Mag. César Bracamonte',
+ intro:'Del auto artesanal a la línea de montaje de Ford, del modelo Push al Just in Time de Toyota, y cómo eso se traduce en Lean Construction.',
+ objetivos:[
+  'Explicar los fundamentos de producción y productividad y la evolución de push a pull.',
+  'Comparar el modelo Ford con el Sistema de Producción Toyota y extraer lecciones para la obra.',
+  'Reconocer los 3 enemigos del TPS (Muda, Muri, Mura), los 7 desperdicios y el rol de las personas, la gestión visual y el Big Room.'],
+ teoria:[
+  {t:'Fundamentos de producción', h:'<p><b>Producción:</b> transformación eficiente de insumos (materias primas, mano de obra, capital) en bienes o servicios finales, añadiendo valor para satisfacer la demanda. Se basa en planificación, organización, control y mejora continua de los sistemas productivos.</p><p><b>Principios de la administración de la producción:</b></p><ul><li><b>Eficiencia y efectividad:</b> maximizar la productividad minimizando costos.</li><li><b>Enfoque de mercado:</b> evolución del modelo <i>push</i> (empujar producto) al <i>pull</i> (producir bajo demanda / justo a tiempo).</li><li><b>Sistema productivo:</b> conjunto interdependiente de elementos con un objetivo común (alta calidad, bajo costo o flexibilidad).</li></ul><div class="callout">Ejercicio de la sesión: dos frentes de movimiento de tierras con el mismo volumen (500 m³), uno con 2 volquetes y otro con 4. Misma <b>producción</b>, distinta <b>productividad</b> (recursos usados y esperas).</div>'},
+  {t:'Origen: del auto artesanal al Modelo T', h:'<ul><li>A inicios de 1900 las ciudades colapsaban por la tracción a sangre; el automóvil era un <b>lujo artesanal</b>: cada pieza se ajustaba a mano, sin estándares. Primer automóvil: Benz Patent-Motorwagen (1885-1886); primer viaje largo, Bertha Benz, 106 km (1888).</li><li><b>Modelo T (1 de octubre de 1908):</b> Ford no inventó el auto, inventó la <b>accesibilidad</b>: diseño simplificado, piezas intercambiables, reparable con herramientas básicas. "Cualquier color, siempre que sea negro" (el esmalte negro secaba más rápido). Se fabricó hasta 1927: más de 15 millones de unidades.</li></ul>'},
+  {t:'Línea de montaje (1913) y el límite del Push', h:'<p>Inspirado en los mataderos de Chicago, Ford invirtió el proceso: <b>el producto se mueve, el trabajador permanece</b>. El montaje de un chasis bajó de <b>12 horas a 93 minutos</b> y el precio de <b>$850 a $300</b>.</p><div class="callout"><b>El límite:</b> Ford maximizó la producción pero ignoró la variedad; fabricaba para llenar inventario, no por pedido (era Push). La producción en masa generaba desperdicios que solo el pensamiento Lean lograría identificar décadas después.</div><p><b>Lecciones para la obra:</b> industrializar (de lo artesanal a procesos estandarizados) y reducir movimientos innecesarios de materiales y personal. Reto: lograr la velocidad de Ford sin su rigidez, pasando a Pull y Just in Time.</p>'},
+  {t:'De Ford a Toyota', h:'<p>Tras la Segunda Guerra, Japón (1945) no tenía capital, materias primas ni mercado masivo. En 1950 <b>Taiichi Ohno</b> visitó las plantas de Ford en Detroit: "increíble para 1910, pero genera montañas de desperdicio (Muda) para 1950". Concluyó que Toyota debía hacer lo opuesto: no empujar, sino <b>tirar</b> según la demanda.</p><div class="tablewrap"><table><tr><th></th><th>Ford (pre-guerra)</th><th>Toyota (Lean)</th></tr><tr><td>Enfoque</td><td>Producción en masa (Push)</td><td>Just in Time (Pull)</td></tr><tr><td>Prioridad</td><td>Cantidad y velocidad</td><td>Calidad y variedad</td></tr><tr><td>Inventario</td><td>Just-in-case ("por si acaso")</td><td>Just-in-time</td></tr><tr><td>El obrero</td><td>Una pieza más de la máquina</td><td>Un solucionador de problemas</td></tr><tr><td>Desperdicio</td><td>Aceptado como costo</td><td>El enemigo a eliminar (Muda)</td></tr></table></div><p>En los años 60 Toyota demostró que podía fabricar gran variedad de productos en lotes pequeños con alta calidad y bajo costo; el sistema fue bautizado "Lean" años después por investigadores de EE. UU.</p>'},
+  {t:'TPS y sus 3 enemigos: Muda, Muri, Mura', h:'<p>El TPS maximiza la productividad eliminando desperdicios, reduciendo la variabilidad y estabilizando el flujo. <b>No busca producir más rápido: busca producir mejor, con menos desperdicio y más confiabilidad.</b> Pilar JIT: "nada antes, nada después, nada de más".</p><ul><li><b>Muda – Desperdicio:</b> esperas, reprocesos, traslados, sobreproducción.</li><li><b>Muri – Sobrecarga:</b> personas o equipos sobreexigidos, jornadas excesivas, "apagar incendios".</li><li><b>Mura – Variabilidad:</b> cambios constantes, flujo inestable, planes que no se cumplen.</li></ul><div class="tablewrap"><table><tr><th>TPS</th><th>Lean Construction (obra)</th></tr><tr><td>Just in Time</td><td>Actividades "listas para ejecutar"</td></tr><tr><td>Jidoka</td><td>Calidad y seguridad preventiva</td></tr><tr><td>Heijunka</td><td>Balanceo de frentes</td></tr><tr><td>Trabajo estandarizado</td><td>Métodos constructivos definidos</td></tr><tr><td>Eliminación de Muda</td><td>Menos esperas y reprocesos</td></tr><tr><td>Control visual</td><td>Tableros, PPC, Look Ahead</td></tr></table></div><div class="quote">TPS no acelera personas, estabiliza procesos. · Sin flujo estable, no hay productividad. · Detener para corregir es más productivo que avanzar con errores. · Lean Construction no es moda: es TPS aplicado a obra.</div>'},
+  {t:'Los 7 desperdicios con ejemplos de obra', h:'<ol><li><b>Sobreproducción</b> (el peor): vaciar concreto sin liberar frentes siguientes; ejecutar partidas "por adelantar".</li><li><b>Esperas:</b> cuadrillas esperando planos, permisos o liberaciones; equipos detenidos por falta de material.</li><li><b>Transporte innecesario:</b> reubicar materiales constantemente; mala logística.</li><li><b>Sobreprocesamiento:</b> acabados de mayor nivel sin requerimiento; doble revisión innecesaria.</li><li><b>Inventarios excesivos:</b> material almacenado por meses; stock "por si acaso".</li><li><b>Movimientos innecesarios:</b> obreros caminando largas distancias; layout deficiente.</li><li><b>Defectos / reprocesos:</b> demoler y rehacer; correcciones por errores de planos.</li></ol>'},
+  {t:'El lado humano de Lean', h:'<p>Comportamientos, valores, liderazgo y relaciones que permiten que las herramientas funcionen. Los problemas, la mejora continua y la innovación los hacen las personas: <b>si las personas no participan, Lean fracasa</b>.</p><div class="quote">Lean Construction no trata de construir más rápido. Trata de crear las condiciones para que las personas puedan trabajar mejor, colaborar mejor y resolver problemas mejor. Las herramientas son visibles; el lado humano es lo que determina el éxito.</div>'},
+  {t:'Gestión visual y Big Room', h:'<p>Un <b>tablero visual</b> centraliza la planificación colaborativa, expone restricciones en tiempo real y permite entender el estado de la obra de un solo vistazo, sin reportes extensos.</p><p><b>Big Room</b> (físico o virtual): cliente, diseñadores, contratistas, especialistas, supervisión y proveedores planifican y resuelven en tiempo real. Beneficios: compromisos más confiables, menos restricciones, comunicación más eficiente, colaboración interdisciplinaria, transparencia, mejor planificación colaborativa (Pull, Lookahead, plan semanal), aprendizaje continuo y decisiones más rápidas (menos retrabajos, mayor PPC).</p>'}
+ ],
+ reflexion:[
+  {q:'Discusión de la sesión: ¿Qué lecciones de la línea de montaje de 1913 podemos rescatar para que el flujo de materiales en obra sea Just in Time y no un cuello de botella?', a:'Respuesta orientativa (la sesión solo plantea la pregunta): estandarizar y reducir movimientos de materiales, mover el producto o el material al punto de uso en vez de buscarlo, abastecer solo lo que el frente siguiente va a consumir (evitar el inventario "dinero quieto" del Push) y coordinar el suministro con la planificación Lookahead.'},
+  {q:'Discusión de la sesión: ¿Qué es más importante para mejorar la productividad, implementar Last Planner o generar confianza entre los responsables de frente?', a:'Respuesta orientativa (la sesión solo plantea la pregunta): no son excluyentes. El Last Planner funciona sobre compromisos confiables; sin confianza los compromisos no se cumplen ni se reportan con honestidad, y sin un sistema (LPS) la confianza no se traduce en flujo estable. La sesión enfatiza que las herramientas son visibles pero el lado humano determina el éxito.'}],
+ practica:[
+  {type:'mcq', q:'En el modelo Push de Ford, el principal problema para la obra moderna es que…',
+   opts:['Se fabrica según la demanda real','Se produce para llenar inventario, generando stock inmovilizado y desperdicio','Prioriza la calidad sobre la cantidad','Elimina la línea de montaje'],c:1,fb:'En obra el inventario de materiales es dinero quieto y espacio perdido.',own:true},
+  {type:'match', q:'Relaciona cada enemigo del TPS con su significado.',
+   pairs:[['Muda','Desperdicio'],['Muri','Sobrecarga'],['Mura','Variabilidad']],own:true},
+  {type:'match', q:'Relaciona cada concepto TPS con su traducción en Lean Construction.',
+   pairs:[['Just in Time','Actividades listas para ejecutar'],['Heijunka','Balanceo de frentes'],['Control visual','Tableros, PPC, Look Ahead'],['Jidoka','Calidad y seguridad preventiva']],own:true}],
+ cierre:['La producción en masa de Ford maximizó el volumen pero generó desperdicio; Toyota respondió con Pull, Just in Time y eliminación de Muda.','Lean combate Muda, Muri y Mura: desperdicio, sobrecarga y variabilidad.','Las herramientas (tableros, Big Room, Last Planner) funcionan solo si las personas participan y confían.'],
+ quote:'Lean Construction no es moda: es TPS aplicado a obra.',
+ refs:['Sesión I sincrónica – Mejora de la productividad en la construcción. Mag. César Bracamonte (UPN).','Severance, A. R. – The Human Side of Lean Enterprise (portada citada en la sesión).'],
+ comp:['En la siguiente unidad se verán los campos de aplicación (cierre de la sesión).']
+},
+/* ---------------------------- 1.1 ---------------------------- */
+{
+ id:'1.1', unit:'Unidad 1', title:'Productividad y entorno del sector construcción en el Perú',
+ sub:'Conceptos generales y el entorno en la industria de la construcción (Parte 1/2)',
+ intro:'Indicadores macroeconómicos, brecha de infraestructura y retos estructurales: por qué la baja productividad es un problema estructural y no coyuntural.',
+ objetivos:[
+  'Conocer los indicadores del país y del sector construcción que condicionan la productividad.',
+  'Comprender la brecha de infraestructura como contexto de presión contractual.',
+  'Identificar los retos estructurales del sector y distinguirlos de problemas circunstanciales.'],
+ escenario:[
+  'Eres gerente de producción de una constructora mediana que ganó la licitación de un colegio, una carretera y un módulo de salud.',
+  'Historial: rendimiento real de cuadrillas 30–40% inferior al planificado, metrados con variaciones semana a semana sin causa clara y costo final 15–20% sobre el presupuesto.',
+  'La gerencia lo atribuye a "falta de mano de obra calificada" y "clima adverso". El directorio pide un diagnóstico preliminar.'],
+ teoria:[
+  {t:'Entorno macroeconómico: sector procíclico', h:'<p>La construcción peruana es <b>procíclica</b>: crece con más intensidad cuando la economía crece y cae más hondo cuando se contrae. Por eso la productividad operacional es una <b>condición de supervivencia</b> empresarial, no solo un indicador de desempeño.</p>'},
+  {t:'Seis indicadores clave', h:'<div class="tablewrap"><table><tr><th>Indicador</th><th>Qué es</th><th>Relevancia para la productividad</th></tr><tr><td>PBI del sector construcción</td><td>Variación anual del valor agregado</td><td>Determina el volumen de obra y la presión sobre plazos y costos</td></tr><tr><td>Inversión pública en infraestructura</td><td>% del PBI en obras públicas</td><td>Principal driver del crecimiento; define la urgencia de ejecutar bien</td></tr><tr><td>Brecha de infraestructura</td><td>Déficit entre lo existente y lo requerido</td><td>Condiciona plazos contractuales y presión por velocidad</td></tr><tr><td>Índice de Costos de Materiales (ICM)</td><td>Variación de precios de insumos</td><td>Impacta el presupuesto y la rentabilidad</td></tr><tr><td>Empleo en construcción</td><td>Trabajadores formales e informales</td><td>Refleja disponibilidad de mano de obra calificada y formalización</td></tr><tr><td>Tasa de ejecución presupuestal pública</td><td>% del presupuesto de inversión ejecutado</td><td>Capacidad del Estado de trasladar recursos a proyectos</td></tr></table></div><p>Leer estos indicadores permite anticipar escasez de materiales, competencia por mano de obra y sostenibilidad del pipeline de proyectos.</p>'},
+  {t:'Brecha de infraestructura y línea de tiempo', h:'<p>Según AFIN, la brecha acumulada supera los <b>USD 100,000 millones</b>. Paradoja: enorme demanda de construcción pero capacidad limitada para ejecutarla en plazo y presupuesto; la urgencia se traduce en plazos ajustados, penalidades y presupuestos rígidos.</p><ul><li><b>2000–2005:</b> inversión pública &lt; 3% del PBI, baja ejecución, alta informalidad.</li><li><b>2006–2011:</b> boom de materias primas; primeras APP.</li><li><b>2012–2016:</b> desaceleración; Plan Nacional de Infraestructura; se cuantifican las brechas.</li><li><b>2017–2019:</b> caso Lava Jato paraliza proyectos; exigencia de transparencia y capacidad técnica.</li><li><b>2020–2022:</b> pandemia; escasez de materiales y mano de obra calificada.</li><li><b>2023–hoy:</b> brecha &gt; USD 100,000 M; presión por eficiencia, BIM y Lean; la productividad pasa a ser KPI sectorial.</li></ul>'},
+  {t:'Sectores con mayor brecha', h:'<div class="tablewrap"><table><tr><th>Sector</th><th>Implicancia para la productividad</th></tr><tr><td>Transportes</td><td>Alta complejidad logística; máxima eficiencia en campo</td></tr><tr><td>Saneamiento</td><td>Obras en zonas remotas con restricciones de suministro y mano de obra</td></tr><tr><td>Salud</td><td>Alta exigencia de calidad y plazos; penalidades severas</td></tr><tr><td>Educación</td><td>Proyectos masivos de baja/mediana complejidad: la productividad es clave</td></tr><tr><td>Energía</td><td>Condiciones extremas; estricto control de costos</td></tr></table></div>'},
+  {t:'Los 4 retos estructurales', h:'<p>La construcción opera con producción única por proyecto, sin líneas de ensamblaje, con equipos temporales y entorno variable.</p><div class="tablewrap"><table><tr><th>Reto</th><th>Manifestación en obra</th><th>Oportunidad de mejora</th></tr><tr><td><b>Baja productividad sistémica</b> (McKinsey 2017: +1% anual vs 3.6% en manufactura; en Perú el trabajo productivo es 28–38% del tiempo)</td><td>Rendimientos 30–40% bajo lo planificado; sobrecostos recurrentes</td><td>Métricas de productividad (IR, PPC) y planificación pull</td></tr><tr><td><b>Informalidad y atomización</b> (CAPECO: obras informales &gt; 50% en algunos segmentos)</td><td>Mano de obra no capacitada; sin estándares</td><td>Formalización progresiva, capacitación, certificación</td></tr><tr><td><b>Déficit de talento técnico y gerencial</b></td><td>Decisiones reactivas; errores de coordinación</td><td>Formación especializada en gestión de producción</td></tr><tr><td><b>Resistencia a metodologías de mejora</b></td><td>Planificación empírica; rechazo a BIM o LPS</td><td>Cambio cultural liderado por la gerencia con evidencia y ROI</td></tr></table></div><p>Los cuatro retos se refuerzan entre sí.</p>'}
+ ],
+ reflexion:[
+  {q:'¿El problema de productividad de esta empresa es coyuntural o estructural?', a:'Es estructural. Atribuir la baja productividad solo a factores externos es una respuesta reactiva que no aborda las causas raíz. La variabilidad recurrente en el rendimiento y los sobrecostos sistemáticos son síntomas de un modelo de planificación y control que no gestiona el flujo de trabajo. Se requiere transformar cómo se planifica, controla y ejecuta, no solo reaccionar al entorno.'}],
+ caso:{
+  titulo:'Tres licitaciones, un mismo problema',
+  contexto:['Constructora mediana gana tres licitaciones públicas: colegio en Lima, carretera en Junín y módulo de salud en Piura.','En los tres el plazo se extendió 40–60%, con penalidades y deterioro reputacional.','Cada informe culpa a causas distintas (expedientes, escasez de materiales, conflictos sociales), pero los partes diarios muestran productividad real de cuadrillas &lt; 55% de lo planificado en los tres.'],
+  problema:'Una empresa puede ganar licitaciones consecutivas y ser productivamente frágil: la gestión solo reacciona a factores externos y no mide ni mejora la productividad real de sus cuadrillas.',
+  analisis:['<b>Reto dominante:</b> baja productividad sistémica, con raíz en la planificación y el control de la producción; las causas externas son reales pero no explican la baja productividad de las cuadrillas.','<b>Relación con los indicadores:</b> la presión por plazos ajustados refleja la brecha de infraestructura y las exigencias del Estado; el contrato premia velocidad pero no penaliza la ineficiencia interna hasta que aparecen las penalidades.','<b>Indicador de mejora real:</b> reducción sostenida de la brecha entre productividad planificada y real, medida con el Índice de Rendimiento (IR); un IR sostenido &gt; 0.85 indicaría mejora real.'],
+  solucion:['Planificación de corto plazo: semanal y lookahead de 3 semanas que identifique restricciones con anticipación.','Métricas por cuadrilla y frente (IR, PPC) como control rutinario.','Capacitar a ingenieros de campo en nivel de actividad y carta balance.','Separar causas externas (se gestionan con el cliente) de ineficiencias internas (se resuelven con mejora de procesos).','Reunión semanal de coordinación con seguimiento de compromisos y causas de incumplimiento.'],
+  resultados:['Distinción entre causas externas e internas','Uso del IR y el PPC como métricas de control rutinario','Intervenciones sistémicas basadas en planificación de corto plazo, medición del trabajo y coordinación semanal']},
+ practica:[
+  {type:'mcq', q:'¿Por qué es importante que un gerente comprenda los indicadores macroeconómicos del sector?',
+   opts:['Permiten anticipar condiciones del entorno que pueden afectar costos, recursos y plazos.','Determinan directamente el diseño técnico de las obras.','Reemplazan los sistemas de planificación interna.'],c:0,fb:'Son la base para anticipar restricciones y tomar decisiones fundamentadas.',inferred:true},
+  {type:'mcq', q:'¿Qué efecto genera la brecha de infraestructura en las constructoras?',
+   opts:['Permite ejecutar sin restricciones de costos y plazos.','Reduce la necesidad de proyectos y limita la inversión pública.','Genera alta demanda de proyectos, pero también fuerte presión por ejecutarlos con eficiencia.'],c:2,fb:'Es la presión concreta que se siente en cada contrato, plazo y penalidad.',inferred:true},
+  {type:'mcq', q:'¿Cuál es un reto estructural del sector construcción?',
+   opts:['Estandarización completa de procesos en todas las empresas.','Baja productividad sistémica asociada a planificación, coordinación y control de obra.','Ausencia de demanda de infraestructura.'],c:1,fb:'Identificar retos estructurales evita confundirlos con problemas circunstanciales.',inferred:true},
+  {type:'mcq', q:'Caso: ¿cuál es la causa estructural del incumplimiento de plazos en los tres proyectos?',
+   opts:['Demoras en expedientes técnicos.','Baja productividad sistémica de cuadrillas, independiente de los factores externos reportados.','Escasez de materiales en el mercado.','Conflictos sociales en las zonas de intervención.'],c:1,fb:'La productividad menor al 55% se repite en los tres proyectos sin importar la causa externa.',inferred:true},
+  {type:'mcq', q:'Como gerente de operaciones, ¿qué primera acción recomendarías?',
+   opts:['Medir semanalmente la productividad real con PPC e IR para identificar causas de pérdida y actuar con anticipación.','Renegociar los plazos con el Estado.','Aumentar cuadrillas en cada frente.','Exigir reportes diarios más detallados de factores externos.'],c:0,fb:'Primero medir: sin datos, cualquier intervención es intuición.',inferred:true}],
+ cierre:['El desempeño del sector está condicionado por los indicadores macro: inversión pública, brecha y expectativas del mercado.','El déficit de infraestructura (&gt; USD 100,000 M) convierte la productividad en condición de viabilidad empresarial.','Los retos del sector son estructurales e interconectados: exigen liderazgo estratégico y no solo respuestas tácticas.'],
+ quote:'La brecha de productividad en la construcción peruana no es solo técnica; es estructural.',
+ refs:['Ballard, G. & Howell, G. (2021). The Last Planner System of production control. Routledge.','Brecha de infraestructura sigue creciendo (s. f.). Estrategia, 8(28), 54-55.','Sacks, R., Eastman, C., Lee, G. & Teicholz, P. (2021). BIM handbook (4ª ed.). Springer.','Tzortzopoulos, P., Kagioglou, M. & Koskela, L. (Eds.) (2021). Routledge handbook of lean construction.'],
+ comp:['McKinsey Global Institute (2017). Reinventing Construction: A Route to Higher Productivity.','MEF. Plan Nacional de Infraestructura Sostenible para la Competitividad 2022-2025.','CAPECO. Informe Económico de la Construcción (IEC).']
+},
+/* ---------------------------- 1.2 ---------------------------- */
+{
+ id:'1.2', unit:'Unidad 1', title:'Productividad, variabilidad y flujo productivo',
+ sub:'Conceptos generales y el entorno en la industria de la construcción (Parte 2/2)',
+ intro:'Definición precisa de productividad, TP/TC/TNC, la variabilidad como principal fuente de pérdida y las condiciones del flujo productivo.',
+ objetivos:[
+  'Definir con precisión productividad, eficiencia y eficacia.',
+  'Reconocer la variabilidad como principal fuente de pérdida y sus seis fuentes en obra.',
+  'Aplicar el modelo TFV de Koskela y las cinco condiciones del flujo productivo.'],
+ escenario:[
+  'Un residente analiza una cuadrilla de encofrado durante cuatro semanas frente a una meta de 60.0 m²/cuadrilla-día.',
+  'Rendimiento: S1 38.5 (−36%), S2 67.2 (+12%), S3 31.8 (−47%), S4 58.3 (−3%).',
+  'Promedio 48.95 m²/cuadrilla-día (18% bajo lo planificado), pero la dispersión (−47% a +12%) es más preocupante que el promedio.'],
+ teoria:[
+  {t:'Productividad, eficiencia, eficacia y variabilidad', h:'<p><b>Productividad</b> = unidades producidas ÷ recursos consumidos. <b>Índice de Rendimiento (IR)</b> = rendimiento real ÷ planificado.</p><div class="tablewrap"><table><tr><th>Concepto</th><th>Definición</th><th>Ejemplo</th><th>Medición</th></tr><tr><td>Productividad</td><td>Producción obtenida vs recursos consumidos</td><td>6 m³ por cuadrilla-día con 6 obreros</td><td>IR</td></tr><tr><td>Eficiencia</td><td>Uso óptimo de recursos, mínimo desperdicio</td><td>6 m³ sin tiempos muertos ni sobreconsumo</td><td>% de TP (muestreo)</td></tr><tr><td>Eficacia</td><td>Cumplir la meta planificada</td><td>Terminar el vaciado en plazo, aun con horas extra</td><td>PPC</td></tr><tr><td>Variabilidad</td><td>Dispersión de resultados respecto al valor esperado</td><td>Rendimiento entre 31 y 67 con meta 60</td><td>Desv. estándar del IR semanal</td></tr></table></div><p>Una obra puede ser eficaz (en plazo) y muy ineficiente (recursos sobre presupuesto).</p>'},
+  {t:'TP / TC / TNC con metas', h:'<ul><li><b>TP</b> (transforma el producto): meta <b>&gt; 60%</b> del tiempo de cuadrilla.</li><li><b>TC</b> (necesario pero no agrega valor): minimizar, <b>25–35%</b>.</li><li><b>TNC</b> (esperas, retrabajos, desplazamientos sin objeto): eliminar, <b>&lt; 10%</b>.</li></ul><p>Perú (Ghio, 2001; PUCP): TP entre 28% y 38%; TNC entre 20% y 30% en obras sin metodologías de mejora. Si el TNC baja de 25% a 10%, el TP puede subir de 35% a 50%: más de <b>40% de productividad</b> sin agregar recursos.</p>'},
+  {t:'Variabilidad: el enemigo invisible', h:'<p>Hace imposible la planificación confiable y tiene un efecto cascada hacia los procesos siguientes. Gestionarla no es eliminarla sino <b>anticiparla, clasificarla y convertirla en acción</b>.</p><div class="tablewrap"><table><tr><th>Fuente</th><th>Manifestación</th><th>Abordaje</th></tr><tr><td>Diseño incompleto o cambiante</td><td>Errores en planos, cambios de alcance, RFI sin resolver</td><td>Revisar y congelar el diseño; compatibilizar</td></tr><tr><td>Suministro inestable</td><td>Desabastecimiento o sobrestock</td><td>Logística coordinada con el lookahead</td></tr><tr><td>Rendimiento humano variable</td><td>Diferencias entre cuadrillas; rotación</td><td>Capacitación y estandarización</td></tr><tr><td>Frentes no preparados</td><td>Sin acceso, limpieza ni medidas</td><td>Sistema "work ready"</td></tr><tr><td>Planificación deficiente</td><td>Sobrecompromiso semanal</td><td>Last Planner System; PPC con análisis de causas</td></tr><tr><td>Factores externos</td><td>Clima, terceros, problemas sociales</td><td>Identificación temprana y contingencias</td></tr></table></div>'},
+  {t:'Variabilidad, colas y buffers', h:'<p>Según la teoría de colas, cuando un recurso opera cerca del 100% de su capacidad y hay variabilidad, el tiempo de espera crece <b>de forma exponencial</b>. Por eso no conviene operar al 100%: los <b>buffers</b> no son ineficiencia, absorben la variabilidad y mantienen el flujo.</p><div class="tablewrap"><table><tr><th></th><th>Alta variabilidad</th><th>Baja variabilidad</th></tr><tr><td>Plan semanal</td><td>Incumplido; PPC &lt; 50%</td><td>Confiable; PPC &gt; 75%</td></tr><tr><td>Materiales</td><td>Sobre-stock o desabastecimiento alternados</td><td>Flujo coordinado, just-in-time</td></tr><tr><td>Decisiones</td><td>Reactivas: "apagar incendios"</td><td>Preventivas</td></tr><tr><td>Costo</td><td>Sobre presupuesto</td><td>Controlado</td></tr><tr><td>Mejora continua</td><td>Sin línea base estable</td><td>Alta: se puede comparar e iterar</td></tr></table></div>'},
+  {t:'Flujo productivo y modelo TFV (Koskela, 1992)', h:'<p>La producción se ve como <b>Transformación</b> (insumos → productos), <b>Flujo</b> (movimiento del trabajo en tiempo y espacio) y <b>Valor</b> (satisfacer al cliente). La gestión tradicional se enfocó solo en la transformación.</p><p><b>Cinco condiciones del flujo:</b></p><ol><li><b>Trabajo listo</b> (work ready): materiales, equipos, diseño, permisos y espacio disponibles. → Lookahead de 3 semanas + checklist.</li><li><b>Capacidad disponible:</b> personas, herramientas y equipos en el momento requerido.</li><li><b>Ausencia de restricciones activas.</b> → Liberación explícita en la reunión semanal.</li><li><b>Secuencia definida y comunicada.</b> → Plan semanal visual y reuniones diarias.</li><li><b>Retroalimentación oportuna.</b> → PPC con análisis de causas.</li></ol>'},
+  {t:'Siete desperdicios: cómo detectarlos', h:'<div class="tablewrap"><table><tr><th>Desperdicio</th><th>Causa típica</th><th>Indicador</th></tr><tr><td>Espera</td><td>Suministro inestable; planificación deficiente</td><td>% de espera; TNC alto</td></tr><tr><td>Sobreproducción</td><td>Secuencia no coordinada entre frentes</td><td>Inventario en proceso acumulado</td></tr><tr><td>Transporte innecesario</td><td>Layout deficiente; sin logística de obra</td><td>TC alto en traslados</td></tr><tr><td>Inventario en exceso</td><td>Compras no coordinadas con el flujo</td><td>Valor en almacén vs plan de uso</td></tr><tr><td>Movimientos innecesarios</td><td>Frentes no preparados</td><td>TC en movimientos sin objeto</td></tr><tr><td>Retrabajos y defectos</td><td>Sin control de calidad en proceso</td><td>Costo de retrabajo / costo total</td></tr><tr><td>Sobreprocesamiento</td><td>Instrucciones ambiguas; sin estandarización</td><td>Horas sobre el estándar</td></tr></table></div>'}
+ ],
+ reflexion:[
+  {q:'¿El problema principal de esta cuadrilla es que produce poco en promedio o que produce de forma impredecible?', a:'El problema principal es la variabilidad, no solo el promedio bajo. Una cuadrilla que produce 48 m²/día de forma consistente es mucho más manejable que una que oscila entre 31 y 67: la variabilidad impide dimensionar materiales, comprometer plazos y detectar dónde está la pérdida real. Reducir la variabilidad antes que subir el promedio es el primer paso para mejorar de forma sostenida.'}],
+ caso:{
+  titulo:'Muestreo en una obra residencial de 8 pisos',
+  contexto:['Muestreo de trabajo durante tres días a la cuadrilla de encofrado.','Resultado: TP 31%, TC 42%, TNC 27% (espera por materiales 12%, instrucciones no claras 8%, desplazamientos sin objeto 7%).','Trabajan 10 horas diarias pero el rendimiento es el 65% del planificado; la gerencia propone ampliar el turno.'],
+  problema:'El sistema productivo genera pérdidas evitables: esperas, instrucciones ausentes y desplazamientos sin objeto consumen más de un cuarto del tiempo disponible.',
+  analisis:['<b>¿Ampliar el turno o reducir el TNC?</b> El problema no es la cantidad de horas sino su distribución; con 27% de TNC, más de un cuarto del tiempo pagado no genera valor. Otro turno solo multiplicaría la ineficiencia.','<b>Relación con variabilidad y flujo:</b> las esperas por materiales (12%) son consecuencia de variabilidad en el suministro; sin ritmo constante no hay flujo, y eso se ve en el TNC.','<b>Mayor impacto:</b> eliminar las restricciones: material antes de que llegue la cuadrilla (work ready), aclarar instrucciones al inicio de la jornada y reorganizar el layout de materiales.'],
+  solucion:['Lookahead para identificar la restricción de materiales con 3 semanas de anticipación.','Protocolo de abastecimiento diario antes del inicio de jornada.','Reunión de coordinación de 15 minutos al inicio de cada día.','Repetir el muestreo mensualmente para medir TP, TC y TNC.'],
+  resultados:['TNC del 27% al 12–15%','TP del 31% al 45–48%','Incremento de productividad de 45–55% sin agregar trabajadores','Costo de intervención muy inferior al de ampliar el turno']},
+ practica:[
+  {type:'mcq', q:'En proyectos de construcción, la productividad se define como…',
+   opts:['La cantidad de trabajadores en obra.','La relación entre la producción obtenida y los recursos utilizados.','El cumplimiento del cronograma sin importar el costo.'],c:1,fb:'Es una relación medible entre lo que se produce y lo que se invierte.',inferred:true},
+  {type:'mcq', q:'¿Por qué la variabilidad es una de las principales fuentes de pérdida?',
+   opts:['Porque reduce automáticamente el número de trabajadores.','Porque impide que los trabajadores se especialicen.','Porque genera resultados impredecibles que dificultan la planificación confiable.'],c:2,fb:'La variabilidad se acumula silenciosamente hasta colapsar en el programa.',inferred:true},
+  {type:'mcq', q:'Según Lean Construction, mejorar la productividad implica principalmente…',
+   opts:['Incrementar las horas de trabajo.','Reducir la variabilidad y eliminar desperdicios en el flujo de trabajo.','Aumentar el número de supervisores.'],c:1,fb:'Así el flujo se vuelve más eficiente y predecible.',inferred:true},
+  {type:'mcq', q:'Caso (TNC 27%, rendimiento 65%): ¿cuál es la causa estructural del bajo rendimiento?',
+   opts:['Falta de experiencia técnica de la cuadrilla.','El turno de 10 horas es insuficiente.','El rendimiento planificado estaba sobreestimado.','El sistema genera pérdidas evitables: esperas, instrucciones ausentes y desplazamientos sin objeto.'],c:3,fb:'Más de un cuarto del tiempo disponible se pierde por causas del sistema.',inferred:true},
+  {type:'mcq', q:'¿Cuál sería la acción más efectiva ante los resultados del muestreo?',
+   opts:['Ampliar el turno para recuperar el atraso.','Reemplazar a los operarios de menor rendimiento.','Reducir el TNC atacando sus causas: materiales, instrucciones y espacio de trabajo.','Aumentar la supervisión directa.'],c:2,fb:'Primero medir, luego eliminar las restricciones que generan el TNC.',inferred:true}],
+ cierre:['Productividad = trabajo producido ÷ recursos consumidos; distínguela de eficiencia y eficacia. TP/TC/TNC permite ver dónde se pierde valor.','La variabilidad tiene orígenes identificables (diseño, suministro, planificación, frente) y reducirla es la primera condición para mejorar.','El flujo (modelo TFV) se sostiene en 5 condiciones: trabajo listo, capacidad, sin restricciones, secuencia definida y retroalimentación.'],
+ quote:'Mejorar la productividad no es trabajar más horas: es reducir la variabilidad y los desperdicios que impiden que el trabajo productivo fluya. El primer paso siempre es medir.',
+ refs:['Ballard, G. & Howell, G. (2021). The Last Planner System of production control. Routledge.','Porras, H., Sánchez, O. & Galvis, J. (2014). Filosofía Lean Construction para la gestión de proyectos. Avances: Investigación en Ingeniería, 11(1), 32-53.','Sacks, R., Eastman, C., Lee, G. & Teicholz, P. (2021). BIM handbook (4ª ed.). Springer.','Tzortzopoulos, P., Kagioglou, M. & Koskela, L. (Eds.) (2021). Routledge handbook of lean construction.'],
+ comp:['CAPECO (2026). IEC94 – Construcción crecería 4.5% en 2025.','Revista Economía (2025). Retos y Desafíos del Sector Construcción [Video].','Campos (2023). ¿Qué papel juega la metodología Lean Construction en las obras?']
+},
+/* ---------------------------- M (La Meta) ---------------------------- */
+{
+ id:'M', unit:'Evaluación 1', title:'La Meta (Goldratt): examen corto',
+ sub:'Caso I · Teoría de Restricciones · Evaluación N.° 1',
+ intro:'Conceptos de La Meta que pide el examen corto (meta, restricción, Herbie, optimización local vs. global) con práctica y guía para las preguntas abiertas.',
+ objetivos:[
+  'Explicar la meta del sistema productivo y qué es una restricción.',
+  'Interpretar el ejemplo de los scouts (Herbie): eventos dependientes y variabilidad.',
+  'Distinguir optimización local de optimización global y llevarlo a la construcción.'],
+ teoria:[
+  {t:'La meta y las tres medidas', h:'<p>Según el video, la meta del sistema no es mantener a todos ocupados, producir el máximo de unidades ni reducir solo costos: es <b>ganar dinero ahora y en el futuro</b>.</p><p class="note">Apoyo propio (no figura en los PDF del curso): Goldratt la mide con <b>throughput</b> (ritmo al que el sistema genera dinero por ventas), <b>inventario</b> (dinero invertido en lo que se piensa vender) y <b>gastos de operación</b> (dinero gastado para convertir inventario en throughput).</p>'},
+  {t:'Restricción (cuello de botella)', h:'<p>Es el <b>recurso que limita la capacidad total del sistema</b>. El rendimiento del sistema lo marca su elemento más limitante, no el promedio de sus partes.</p>'},
+  {t:'Herbie y la caminata de los scouts', h:'<p>Herbie, el scout más lento, marca el ritmo del grupo: demuestra que los <b>eventos dependientes y la variabilidad</b> afectan el desempeño del sistema. Aumentar la velocidad de los demás no mejora el resultado global; la fila se estira (acumulación de "inventario").</p>'},
+  {t:'Optimizar lo que no es restricción', h:'<p>Mejorar recursos que no son la restricción <b>no mejora el sistema</b>: puede generar más inventario o trabajo acumulado (WIP) sin mejorar el resultado final. Mantener a todos ocupados no equivale a mejores resultados. Lo importante es la eficiencia del <b>sistema</b>, no la eficiencia individual de cada parte (óptimo local vs. global).</p>'},
+  {t:'Primer paso de la mejora continua', h:'<p>El primer paso propuesto por Goldratt es <b>identificar la restricción del sistema</b>.</p><p class="note">Apoyo propio (no figura en los PDF): los cinco pasos de enfoque son (1) identificar la restricción, (2) explotarla, (3) subordinar todo lo demás a ella, (4) elevarla, (5) volver al paso 1 si cambió la restricción.</p>'},
+  {t:'Puente con la construcción', h:'<ul><li><b>Herbie en obra:</b> la cuadrilla, equipo, frente, proveedor, aprobación o información de diseño que limita el avance global.</li><li><b>Restricciones en el LPS:</b> el análisis de restricciones antes de programar es la versión práctica de "identificar la restricción".</li><li><b>Buffers y WIP:</b> proteger la restricción con holguras y evitar acumular trabajo en proceso (tema 2.1).</li><li><b>Takt-time:</b> subordinar el ritmo de todas las cuadrillas al ritmo del sistema (tema 2.1).</li><li><b>Eficiencia local vs. global:</b> optimizar la partida de cada subcontratista puede perjudicar el proyecto; por eso Pull Planning y el Big Room (temas 4.1 y 4.2).</li></ul>'}
+ ],
+ practica:[
+  {type:'mcq', q:'¿Cuál es la verdadera meta del sistema productivo según el video La Meta?',
+   opts:['Mantener a todos los trabajadores ocupados','Producir la mayor cantidad posible de unidades','Ganar dinero ahora y en el futuro','Reducir costos operativos únicamente'],c:2,fb:'No es la ocupación ni el volumen: es ganar dinero ahora y en el futuro.',inferred:true},
+  {type:'mcq', q:'¿Qué es una restricción dentro de un sistema productivo?',
+   opts:['Un trabajador con bajo rendimiento','El recurso que limita la capacidad total del sistema','Una actividad con mayor costo','Un error de planificación'],c:1,fb:'Marca el ritmo del sistema completo.',inferred:true},
+  {type:'mcq', q:'Según la caminata de los scouts (Herbie), ¿qué problema se demuestra?',
+   opts:['Falta de liderazgo del grupo','Que todos deben caminar a la misma velocidad','Que los eventos dependientes y la variabilidad afectan el desempeño del sistema','Que aumentar la velocidad individual mejora el resultado global'],c:2,fb:'El ritmo del grupo lo marca el más lento.',inferred:true},
+  {type:'mcq', q:'¿Qué ocurre cuando se optimizan recursos que NO son la restricción?',
+   opts:['El sistema mejora automáticamente','Se incrementa el throughput del sistema','Puede generarse más inventario o trabajo acumulado sin mejorar el resultado final','Se reduce el tiempo total del proceso'],c:2,fb:'Optimizar lo que no limita solo acumula inventario.',inferred:true},
+  {type:'mcq', q:'¿Cuál es el primer paso del proceso de mejora continua propuesto por Goldratt?',
+   opts:['Reducir costos','Aumentar personal','Identificar la restricción del sistema','Automatizar procesos'],c:2,fb:'Sin identificar la restricción se optimiza lo equivocado.',inferred:true}],
+ abiertas:[
+  {id:'p6',q:'P6 (1 pto). ¿Cuál fue el principal error de gestión que cometía la planta antes de aplicar las ideas de Jonah? Explica por qué ese error también ocurre en proyectos de construcción.',g:'Guía: señala el error (medir y optimizar eficiencias locales, mantener a todos ocupados) y su efecto (inventario/WIP, sin mejorar lo que sale). Paralelo en obra: cada cuadrilla o subcontratista maximiza su avance sin mirar al frente siguiente.'},
+  {id:'p7',q:'P7 (1 pto). ¿Estás de acuerdo con que mantener a todos los recursos ocupados no mejora necesariamente los resultados? Menciona un ejemplo real o hipotético en una obra.',g:'Guía: postura clara + ejemplo concreto (p. ej. una cuadrilla que adelanta encofrado mientras la de acero es la restricción y se acumula WIP). Usa los conceptos de WIP, cuello de botella y buffers.'},
+  {id:'p8',q:'P8 (1 pto). Si Herbie representa la restricción, ¿qué elementos suelen ser el "Herbie" en los proyectos de construcción?',g:'Guía: ejemplos (una cuadrilla especializada, un equipo como la grúa o el mixer, liberación de frentes, entrega de información de diseño, aprobaciones, proveedor crítico) y cómo identificarlos (donde se acumula trabajo antes y se espera después).'},
+  {id:'p9',q:'P9 (1 pto). ¿En la construcción peruana se prioriza más la eficiencia individual o la del sistema? Justifica.',g:'Guía: toma postura y sustenta con lo visto: contratos por partidas y subcontratos independientes, planificación push, falta de PPC (tema 1.1 y 4.1) vs. pull planning y Big Room.'},
+  {id:'p10',q:'P10 (1 pto). Después de ver La Meta, ¿qué cambio de mentalidad consideras más importante para mejorar la productividad en proyectos de construcción?',g:'Guía: un solo cambio bien argumentado (de ocupación a flujo, de óptimo local a global, de reaccionar a prevenir restricciones) y cómo se vería en la práctica.'},
+  {id:'p11',q:'P11 (10 ptos – la de mayor peso). ¿En los proyectos donde has trabajado, has contribuido, aunque sea sin intención, a generar ineficiencias en el sistema? ¿Qué decisiones o formas de trabajo podrían haber optimizado tu área pero perjudicado el resultado global?',g:'Guía de estructura (responde con tus propias vivencias): 1) Situación y tu rol. 2) La decisión o práctica que optimizaba tu área. 3) Efecto local positivo. 4) Efecto global negativo (esperas aguas abajo, inventario, retrabajos). 5) Qué restricción real afectaba al sistema. 6) Qué harías distinto hoy (restricciones, pull, coordinación). Es una reflexión personal: no copies ejemplos genéricos.'}],
+ cierre:['La meta es ganar dinero ahora y en el futuro; la ocupación y el volumen no son la meta.','La restricción marca el desempeño del sistema: optimizar lo demás solo acumula inventario.','El primer paso es identificar la restricción; en obra, es el análisis de restricciones y el flujo.'],
+ quote:'Optimizar partes individuales no garantiza optimizar el sistema completo.',
+ refs:['Examen corto — La Meta (The Goal). Mag. César Bracamonte (UPN), basado en el video de La Meta.','Goldratt, E. M. & Cox, J. (1984). The Goal (libro citado en la rúbrica de la Evaluación N.° 1).'],
+ comp:['Los conceptos marcados como "apoyo propio" no aparecen en los PDF del curso.']
+},
 /* ---------------------------- 2.1 ---------------------------- */
 {
  id:'2.1', unit:'Unidad 2', title:'Sectorización, tren de actividades y nivel de actividad',
@@ -426,7 +591,23 @@ const CARDS = [
  ['DBB','Diseño–Licitación–Construcción: modelo tradicional que separa a las partes y fomenta la confrontación.','4.2'],
  ['CDE','Entorno Común de Datos: "única fuente de la verdad" en la nube.','4.2'],
  ['Big Room','Sala de co-ubicación del equipo para decisiones concurrentes cara a cara.','4.2'],
- ['Target Value Design','Diseñar ajustándose estrictamente a un presupuesto objetivo (Sutter Medical Center).','4.2']
+ ['Target Value Design','Diseñar ajustándose estrictamente a un presupuesto objetivo (Sutter Medical Center).','4.2'],
+ ['Productividad','Relación entre la producción obtenida y los recursos consumidos. Se mide con el IR (real ÷ planificado).','1.2'],
+ ['Eficiencia vs. eficacia','Eficiencia: usar bien los recursos (% de TP). Eficacia: cumplir la meta planificada (PPC).','1.2'],
+ ['IR (Índice de Rendimiento)','Rendimiento real ÷ planificado. Sostenido por encima de 0.85 indica mejora real.','1.1'],
+ ['Metas de TP / TC / TNC','TP > 60%, TC 25–35%, TNC < 10%. En obras peruanas promedio el TP es 28–38%.','1.2'],
+ ['Modelo TFV (Koskela)','La producción vista como Transformación, Flujo y Valor.','1.2'],
+ ['5 condiciones del flujo','Trabajo listo, capacidad disponible, sin restricciones activas, secuencia definida y retroalimentación oportuna.','1.2'],
+ ['Sector procíclico','La construcción crece más cuando la economía crece y cae más cuando se contrae.','1.1'],
+ ['Brecha de infraestructura','Déficit entre infraestructura existente y requerida; en el Perú supera los USD 100,000 M (AFIN).','1.1'],
+ ['4 retos estructurales','Baja productividad sistémica, informalidad, déficit de talento técnico-gerencial y resistencia al cambio metodológico.','1.1'],
+ ['Push vs. Pull (Ford–Toyota)','Ford: producción en masa para llenar inventario. Toyota: producir según la demanda (Just in Time).','S1'],
+ ['Muda, Muri, Mura','Desperdicio, sobrecarga y variabilidad: los 3 enemigos del TPS.','S1'],
+ ['Heijunka','Nivelación de la producción; en obra, balanceo de frentes.','S1'],
+ ['Meta (La Meta)','Ganar dinero ahora y en el futuro; no es mantener a todos ocupados ni producir el máximo.','M'],
+ ['Herbie','El scout más lento que marca el ritmo del grupo: la restricción del sistema.','M'],
+ ['Optimización local vs. global','Optimizar partes que no son la restricción solo acumula inventario sin mejorar el resultado.','M'],
+ ['Primer paso de Goldratt','Identificar la restricción del sistema.','M']
 ];
 
 /* ---------- Banco del simulacro (preguntas elaboradas para estudiar) ---------- */
@@ -462,6 +643,15 @@ const BANK = [
  {k:'sust',q:'¿Qué es el CDE?',o:['Un tipo de contrato','Plataforma centralizada que actúa como única fuente de la verdad del proyecto','Una cuadrilla especializada','Un indicador de productividad'],c:1,e:'Reduce RFIs por información obsoleta.'},
  {k:'sust',q:'En el Phase Pull Planning, la "red de compromisos" implica que…',o:['Las fechas son orientativas','Los acuerdos se vuelven compromisos que solo se modifican por acuerdo de todo el equipo','Solo el subcontratista se compromete','Se eliminan los buffers'],c:1,e:'Brioso (2017).'},
  {k:'sust',q:'El muestreo de trabajo tradicional presenta como principal limitación…',o:['Costo inicial muy alto','Subjetividad del observador y alto consumo de tiempo de supervisión','Necesita cámaras','No sirve para clasificar actividades'],c:1,e:'Frente a la visión por computadora, que es continua y objetiva pero requiere inversión.'},
+ {k:'toc',q:'Según La Meta, ¿cuál es la meta del sistema productivo?',o:['Mantener ocupados a todos los recursos','Ganar dinero ahora y en el futuro','Maximizar las unidades producidas','Reducir únicamente costos'],c:1,e:'Ocupación, volumen o costos aislados no son la meta.'},
+ {k:'toc',q:'Optimizar un recurso que NO es la restricción provoca, principalmente…',o:['Más throughput del sistema','Más inventario o trabajo acumulado sin mejorar el resultado final','Menor tiempo total del proceso','Mayor motivación'],c:1,e:'El ritmo lo marca la restricción: lo demás solo se acumula.'},
+ {k:'toc',q:'¿Cuál es el primer paso de mejora propuesto por Goldratt?',o:['Reducir costos','Identificar la restricción del sistema','Automatizar procesos','Aumentar personal'],c:1,e:'Sin identificarla se optimiza lo equivocado.'},
+ {k:'toc',q:'¿Qué es la variabilidad según el tema 1.2?',o:['La cantidad de obreros en obra','La dispersión de los resultados de un proceso respecto a su valor esperado','El costo de los materiales','El avance del cronograma'],c:1,e:'Hace imposible la planificación confiable.'},
+ {k:'fund',q:'Según el tema 1.2, una cuadrilla con TNC de 27% y 65% de rendimiento necesita principalmente…',o:['Ampliar el turno','Reducir el TNC atacando sus causas (materiales, instrucciones, espacio)','Reemplazar operarios','Más supervisión'],c:1,e:'Más horas multiplican la ineficiencia; hay que eliminar las pérdidas del sistema.'},
+ {k:'fund',q:'En la comparación Ford–Toyota, el inventario en Ford era…',o:['Just-in-time','"Por si acaso" (just-in-case)','Inexistente','Igual al de Toyota'],c:1,e:'Toyota lo cambió por Just in Time.'},
+ {k:'caso',q:'Tres proyectos con causas externas distintas pero productividad de cuadrillas menor al 55% en todos. ¿Dónde está la causa estructural?',o:['En los expedientes técnicos','En la baja productividad sistémica y la gestión interna del flujo','En el clima','En los conflictos sociales'],c:1,e:'El factor común no es externo: es la gestión de la producción.'},
+ {k:'caso',q:'El rendimiento de una cuadrilla oscila entre 31 y 67 m²/día con meta 60. ¿Qué atender primero?',o:['Solo subir el promedio','La variabilidad: es lo que impide planificar y detectar la pérdida real','Despedir a la cuadrilla','Duplicar la meta'],c:1,e:'Reducir variabilidad es el primer paso de la mejora sostenida.'},
+ {k:'sust',q:'Según la teoría de colas citada en 1.2, si un recurso opera cerca del 100% con variabilidad…',o:['El tiempo de espera crece de forma exponencial','El tiempo de espera baja','No cambia nada','La productividad se duplica'],c:0,e:'Por eso los buffers no son ineficiencia.'},
  {k:'sust',q:'Según la lectura de 3.1, ¿cuál es un beneficio de la prefabricación?',o:['Más residuos','Plazos más veloces, calidad constante y hasta 90% menos de residuos','Mayor trabajo in situ','Menos control de calidad'],c:1,e:'Casini (2022).'}
 ];
 const KIND = {fund:'Fundamentos de Lean Construction',toc:'Restricciones, flujo y generación de valor',caso:'Análisis y resolución de situaciones',sust:'Sustento técnico'};
@@ -479,11 +669,15 @@ const el = (h)=>{const t=document.createElement('template');t.innerHTML=h.trim()
 const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const shuffle = a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const SECS = [['obj','Objetivos'],['teo','Teoría'],['ref','Reflexión'],['cas','Caso aplicado'],['pra','Práctica'],['cie','Cierre']];
+/* secciones que realmente tiene cada tema (algunos no traen reflexión o caso) */
+function secsFor(t){
+  return SECS.filter(([k])=>k==='ref'?(t.reflexion&&t.reflexion.length):k==='cas'?!!t.caso:true);
+}
 
-let state = {done:{}, quiz:{}, ppc:[], grades:{n1:'',n2:'',n3:''}, exams:[]};
+let state = {done:{}, quiz:{}, ppc:[], grades:{n1:'',n2:'',n3:''}, exams:[], drafts:{}};
 try{ const s = JSON.parse(localStorage.getItem('mpc_state')||'null'); if(s) state = Object.assign(state,s); }catch(e){}
 function save(){ try{ localStorage.setItem('mpc_state',JSON.stringify(state)); }catch(e){} }
-function topicProgress(t){ const d=state.done[t.id]||{}; return SECS.filter(([k])=>d[k]).length/SECS.length; }
+function topicProgress(t){ const d=state.done[t.id]||{}; const s=secsFor(t); return s.filter(([k])=>d[k]).length/s.length; }
 
 /* tema claro/oscuro */
 (function(){
@@ -537,18 +731,18 @@ function topicCard(t){
 function viewHome(app){
   const total=TOPICS.reduce((a,t)=>a+topicProgress(t),0)/TOPICS.length;
   app.appendChild(el(`<div class="hero"><h1>Aprende, practica y evalúate</h1>
-    <p>Guía interactiva del curso <b>Mejora de la productividad en la construcción</b>. Seis temas con teoría, preguntas de reflexión, casos aplicados y prácticas; tarjetas de repaso, simulacro del examen final con la rúbrica y calculadoras de PPC, takt-time y nivel de actividad.</p>
+    <p>Guía interactiva del curso <b>Mejora de la productividad en la construcción</b>. Sesión I, ocho temas (1.1 a 4.2) y el examen corto de <i>La Meta</i>, con teoría, preguntas de reflexión, casos aplicados y prácticas; tarjetas de repaso, simulacro del examen final con la rúbrica y calculadoras de PPC, takt-time y nivel de actividad.</p>
     <p class="small">Progreso global: <b>${Math.round(total*100)}%</b></p></div>`));
   const g=el('<div class="grid"></div>'); TOPICS.forEach(t=>g.appendChild(topicCard(t))); app.appendChild(g);
   const best=state.exams.length?Math.max(...state.exams.map(e=>e.nota)):null;
   app.appendChild(el(`<div class="card" style="margin-top:16px"><h3>Cómo se evalúa el curso</h3>
     <p>Tres evaluaciones de 0 a 20 puntos (La Meta, ensayo Lean y examen final). <b>Nota final = (N1 + N2 + N3) / 3</b>.</p>
     <p class="muted small">${best!==null?`Tu mejor simulacro: <b>${best}/20</b>. `:''}Practica con el <a href="#/simulacro">simulacro</a> o revisa la <a href="#/rubrica">rúbrica</a>.</p></div>`));
-  app.appendChild(el(`<div class="card"><h3>Sobre el contenido</h3><p class="small muted">Las prácticas de varios PDF no traen la clave de respuestas; en esos casos la respuesta correcta se dedujo del contenido y se marca con "clave deducida". El libro <i>La Meta</i> (Evaluación 1) no está en los PDF cargados, por lo que esta guía no lo desarrolla.</p></div>`));
+  app.appendChild(el(`<div class="card"><h3>Sobre el contenido</h3><p class="small muted">Las prácticas de varios PDF no traen la clave de respuestas; en esos casos la respuesta correcta se dedujo del contenido y se marca con "clave deducida". Del libro <i>La Meta</i> solo se tiene el examen corto del curso (basado en el video); los conceptos que no aparecen en los PDF se marcan como "apoyo propio". Las preguntas abiertas del examen son de reflexión personal: la guía solo orienta la estructura.</p></div>`));
 }
 function viewTemas(app){
   app.appendChild(el('<h1>Temas del curso</h1>'));
-  [['Unidad 2','Herramientas de productividad y mejora continua'],['Unidad 3','Producción en serie vs. construcción'],['Unidad 4','Last Planner System, Pull Planning y tecnología']].forEach(([u,n])=>{
+  [['Unidad 1','Productividad: conceptos generales y entorno del sector'],['Evaluación 1','La Meta y la Teoría de Restricciones'],['Unidad 2','Herramientas de productividad y mejora continua'],['Unidad 3','Producción en serie vs. construcción'],['Unidad 4','Last Planner System, Pull Planning y tecnología']].forEach(([u,n])=>{
     app.appendChild(el(`<h3 style="margin-top:18px">${u} · ${n}</h3>`));
     const g=el('<div class="grid"></div>'); TOPICS.filter(t=>t.unit===u).forEach(t=>g.appendChild(topicCard(t))); app.appendChild(g);
   });
@@ -572,24 +766,24 @@ function viewTema(app,id){
   app.appendChild(el(`<div><a href="#/temas">← Todos los temas</a></div>`));
   app.appendChild(el(`<div class="hero" style="margin-top:10px"><span class="tag">Tema ${t.id}</span><h1 style="margin-top:8px">${esc(t.title)}</h1><p>${esc(t.sub)}</p>
     <div class="bar" style="background:#333"><i id="pbar" style="width:${Math.round(topicProgress(t)*100)}%"></i></div></div>`));
-  app.appendChild(el(`<div class="topic-nav">${SECS.map(([k,l])=>`<a href="#" data-go="sec-${k}">${l}</a>`).join('')}</div>`));
+  app.appendChild(el(`<div class="topic-nav">${secsFor(t).map(([k,l])=>`<a href="#" data-go="sec-${k}">${l}</a>`).join('')}</div>`));
   $('.topic-nav',app).onclick=e=>{const a=e.target.closest('a');if(!a)return;e.preventDefault();$('#'+a.dataset.go).scrollIntoView({behavior:'smooth'})};
 
   const sec=(k,title,build)=>{const s=el(`<section class="sec" id="sec-${k}"><h2>${title}</h2></section>`);build(s);s.appendChild(doneBtn(t.id,k));app.appendChild(s)};
 
   sec('obj','Objetivos y escenario',s=>{
     s.appendChild(el(`<div class="card"><h3>Al finalizar serás capaz de…</h3>${ol(t.objetivos)}</div>`));
-    s.appendChild(el(`<div class="card"><h3>Situación de partida</h3>${ol(t.escenario,'steps')}</div>`));
+    if(t.escenario) s.appendChild(el(`<div class="card"><h3>Situación de partida</h3>${ol(t.escenario,'steps')}</div>`));
   });
   sec('teo','Teoría',s=>{
     t.teoria.forEach((x,i)=>{const d=el(`<details ${i===0?'open':''}><summary>${esc(x.t)}</summary><div class="body">${x.h}</div></details>`);s.appendChild(d)});
     s.appendChild(el(`<div class="quote">${esc(t.quote)}</div>`));
   });
-  sec('ref','Preguntas de reflexión',s=>{
+  if(t.reflexion&&t.reflexion.length) sec('ref','Preguntas de reflexión',s=>{
     s.appendChild(el('<p class="muted">Piensa tu respuesta y luego despliega la pregunta.</p>'));
     t.reflexion.forEach(r=>s.appendChild(reveal(r.q,r.a)));
   });
-  sec('cas','Caso aplicado: '+t.caso.titulo,s=>{
+  if(t.caso) sec('cas','Caso aplicado: '+t.caso.titulo,s=>{
     const c=t.caso;
     s.appendChild(el(`<div class="card"><h3>Contexto</h3>${ol(c.contexto,'steps')}</div>`));
     s.appendChild(el(`<details><summary>¿Cuál es el problema?</summary><div class="body"><p>${c.problema}</p></div></details>`));
@@ -601,11 +795,24 @@ function viewTema(app,id){
     const key=t.id; const q=(state.quiz[key]=state.quiz[key]||{});
     t.practica.forEach((p,i)=>s.appendChild(p.type==='mcq'?mcq(p,key,i,q):matchQ(p,key,i,q)));
     const sc=el('<p class="small muted" id="qscore"></p>'); s.appendChild(sc); updScore(t);
+    if(t.abiertas){
+      s.appendChild(el('<h3 style="margin-top:18px">Preguntas abiertas</h3>'));
+      s.appendChild(el('<p class="muted small">Redacta tu respuesta en tu propio texto; se guarda automáticamente en este navegador. La guía solo orienta la estructura, no reemplaza tu criterio ni tu experiencia.</p>'));
+      const dr=(state.drafts[t.id]=state.drafts[t.id]||{});
+      t.abiertas.forEach(a=>{
+        const box=el(`<div class="card"><p><b>${esc(a.q)}</b></p><textarea rows="${a.id==='p11'?9:4}" style="width:100%;font:inherit;padding:8px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--ink)" placeholder="Escribe tu respuesta…"></textarea><div class="small muted wc"></div><details><summary>Guía para responder</summary><div class="body"><p>${esc(a.g)}</p></div></details></div>`);
+        const ta=$('textarea',box), wc=$('.wc',box);
+        ta.value=dr[a.id]||'';
+        const upd=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;wc.textContent=n+' palabras'};
+        ta.oninput=()=>{dr[a.id]=ta.value;save();upd()}; upd();
+        s.appendChild(box);
+      });
+    }
   });
   sec('cie','Cierre',s=>{
     s.appendChild(el(`<div class="card"><h3>Ideas más relevantes</h3>${ol(t.cierre)}</div>`));
-    s.appendChild(el(`<details><summary>Referencias</summary><div class="body"><ul>${t.refs.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div></details>`));
-    s.appendChild(el(`<details><summary>Material complementario</summary><div class="body"><ul>${t.comp.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div></details>`));
+    if(t.refs) s.appendChild(el(`<details><summary>Referencias</summary><div class="body"><ul>${t.refs.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div></details>`));
+    if(t.comp) s.appendChild(el(`<details><summary>Material complementario / notas</summary><div class="body"><ul>${t.comp.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div></details>`));
   });
   const nav=el('<div class="row" style="justify-content:space-between"></div>');
   if(TOPICS[idx-1]){const b=el(`<button class="btn ghost">← ${TOPICS[idx-1].id}</button>`);b.onclick=()=>location.hash='#/tema/'+TOPICS[idx-1].id;nav.appendChild(b)}else nav.appendChild(el('<span></span>'));
@@ -618,7 +825,7 @@ function updScore(t){
   const e=$('#qscore'); if(e) e.textContent=`Respondidas: ${ans}/${n} · Correctas: ${ok}`;
 }
 function mcq(p,key,i,q){
-  const box=el(`<div class="card"><p><b>${i+1}.</b> ${esc(p.q)}</p><div class="opts"></div><div class="fbwrap"></div>${p.inferred?'<div class="note">Clave deducida del contenido (el PDF no la muestra).</div>':''}</div>`);
+  const box=el(`<div class="card"><p><b>${i+1}.</b> ${esc(p.q)}</p><div class="opts"></div><div class="fbwrap"></div>${p.inferred?'<div class="note">Clave deducida del contenido (el PDF no la muestra).</div>':''}${p.own?'<div class="note">Pregunta de práctica elaborada para esta guía a partir de la sesión.</div>':''}</div>`);
   const opts=$('.opts',box);
   p.opts.forEach((o,j)=>{
     const b=el(`<button class="opt">${esc(o)}</button>`);
@@ -635,7 +842,7 @@ function mcq(p,key,i,q){
 }
 function matchQ(p,key,i,q){
   const rights=shuffle(p.pairs.map(x=>x[1]));
-  const box=el(`<div class="card"><p><b>${i+1}.</b> ${esc(p.q)}</p><div class="rows"></div><div class="row"><button class="btn">Verificar</button></div><div class="fbwrap"></div>${p.inferred?'<div class="note">Emparejamiento deducido del contenido (el PDF no muestra la clave).</div>':''}</div>`);
+  const box=el(`<div class="card"><p><b>${i+1}.</b> ${esc(p.q)}</p><div class="rows"></div><div class="row"><button class="btn">Verificar</button></div><div class="fbwrap"></div>${p.inferred?'<div class="note">Emparejamiento deducido del contenido (el PDF no muestra la clave).</div>':''}${p.own?'<div class="note">Pregunta de práctica elaborada para esta guía a partir de la sesión.</div>':''}</div>`);
   const rows=$('.rows',box);
   p.pairs.forEach(([l,r])=>{
     rows.appendChild(el(`<div class="match-row"><div>${esc(l)}</div><select><option value="">— elige —</option>${rights.map(x=>`<option>${esc(x)}</option>`).join('')}</select></div>`));
@@ -681,7 +888,7 @@ function viewExam(app){
   app.appendChild(el('<h1>Simulacro de examen final</h1>'));
   app.appendChild(el(`<div class="card"><p>20 preguntas de opción múltiple (equivale a 1 punto cada una) repartidas según los criterios de la Evaluación N.° 3. Son preguntas de práctica elaboradas a partir del material del curso, no el examen oficial.</p>
   <div class="tablewrap"><table><tr><th>Criterio de la rúbrica</th><th>Puntos</th></tr><tr><td>Fundamentos de Lean Construction</td><td>5</td></tr><tr><td>Teoría de Restricciones y generación de valor*</td><td>5</td></tr><tr><td>Análisis y resolución de situaciones aplicadas</td><td>6</td></tr><tr><td>Sustento técnico de las respuestas</td><td>4</td></tr></table></div>
-  <p class="note">*Los PDF cargados tratan restricciones, cuellos de botella y flujo de valor, pero no desarrollan la Teoría de Restricciones de Goldratt; estas preguntas cubren solo lo que aparece en ellos.</p></div>`));
+  <p class="note">*Las preguntas de este criterio se basan en el examen corto de La Meta y en lo visto sobre restricciones, variabilidad y flujo; no es el examen oficial.</p></div>`));
   const area=el('<div></div>'); app.appendChild(area);
   const start=el('<button class="btn alt">Comenzar simulacro</button>'); area.appendChild(start);
   if(state.exams.length){
@@ -783,7 +990,7 @@ function viewRubric(app){
   Object.entries(RUBRIC).forEach(([t,rows])=>{
     app.appendChild(el(`<div class="card"><h3>${esc(t)}</h3><div class="tablewrap"><table><tr><th>Criterio</th><th>Puntaje máximo</th></tr>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${r[1]}</td></tr>`).join('')}<tr><th>Total</th><th>${rows.reduce((a,r)=>a+r[1],0)}</th></tr></table></div></div>`));
   });
-  app.appendChild(el('<div class="card"><h3>Cómo usar esta guía para cada evaluación</h3><ul><li><b>N.° 2 (ensayo Lean):</b> elige una obra y usa los casos aplicados como plantilla: problema → análisis → solución → resultados. Cita a Brioso (2017), Karkoszka & Honorowicz (2009), Casini (2022) y Eastman (2011).</li><li><b>N.° 3 (examen final):</b> repasa tarjetas y practica con el simulacro.</li><li><b>N.° 1 (La Meta):</b> el libro no está en los PDF cargados.</li></ul></div>'));
+  app.appendChild(el('<div class="card"><h3>Cómo usar esta guía para cada evaluación</h3><ul><li><b>N.° 2 (ensayo Lean):</b> elige una obra y usa los casos aplicados como plantilla: problema → análisis → solución → resultados. Cita a Brioso (2017), Karkoszka & Honorowicz (2009), Casini (2022) y Eastman (2011).</li><li><b>N.° 3 (examen final):</b> repasa tarjetas y practica con el simulacro.</li><li><b>N.° 1 (La Meta):</b> repasa el tema "La Meta" (Evaluación 1). El examen corto del curso tiene 5 preguntas de opción múltiple (1 pto c/u), 5 abiertas (1 pto c/u) y una reflexión personal de 10 puntos, que es la de mayor peso.</li></ul></div>'));
 }
 
 route();
