@@ -98,6 +98,38 @@ input[type=number],input[type=text]{font:inherit;padding:7px;border-radius:6px;b
 .big{font-size:2.2rem;font-weight:800}
 footer{max-width:1100px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:.8rem}
 .hidden{display:none!important}
+
+/* ---- lectura en voz alta ---- */
+main{padding-bottom:110px}
+.player{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:3px solid var(--brand);padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;gap:6px;justify-content:center;box-shadow:0 -4px 14px rgba(0,0,0,.12)}
+.pb{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:8px 14px;font:inherit;font-weight:600;font-size:.88rem;cursor:pointer}
+.pb.main{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.pb.on{background:var(--soft);border-color:var(--brand)}
+.say{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;width:34px;height:34px;font-size:1rem;line-height:1;padding:0;cursor:pointer;flex:none}
+section.sec>h2{display:flex;align-items:center;justify-content:space-between;gap:10px}
+section.sec>h2 .say{background:#fff;border-color:transparent}
+details>summary{display:flex;align-items:center;gap:10px}
+details>summary .stx{flex:1}
+details>summary::after{float:none;flex:none}
+.speaking{outline:3px solid var(--accent);outline-offset:2px;background:var(--soft)!important;border-radius:8px}
+.seslinks{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 4px}
+.seslinks .btn{flex:1 1 200px;text-align:left}
+.seslinks .btn small{display:block;font-weight:400;opacity:.85}
+
+@media(max-width:640px){
+  header.top{position:static}
+  .top-in{padding:8px 12px;gap:8px}
+  .logo{font-size:.95rem;padding-right:44px}
+  .logo small{display:none}
+  nav.main{margin-left:0;gap:2px;width:100%;overflow-x:auto;flex-wrap:nowrap}
+  nav.main button{padding:7px 10px;font-size:.84rem;white-space:nowrap}
+  #theme{position:absolute;right:10px;top:8px;padding:5px 9px}
+  .hero{padding:18px 14px}
+  .hero h1{font-size:1.45rem}
+  .pb{padding:7px 11px;font-size:.82rem}
+  .player{gap:5px;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+  main{padding-bottom:120px}
+}
 </style>
 </head>
 <body>
@@ -704,6 +736,7 @@ function route(){
   const h=(location.hash||'#/home').replace(/^#\//,'').split('/');
   const r=h[0]||'home';
   renderNav(r);
+  Speak.stop(); Speak.ui=null; const oldBar=$('.player'); if(oldBar) oldBar.remove();
   const app=$('#app'); app.innerHTML='';
   window.scrollTo(0,0);
   if(r==='home') viewHome(app);
@@ -748,6 +781,105 @@ function viewTemas(app){
   });
 }
 
+
+/* ============================================================
+   LECTURA EN VOZ ALTA (Web Speech API del navegador)
+   ============================================================ */
+const SAY='<button class="say" data-say title="Escuchar esta parte" aria-label="Escuchar esta parte">🔊</button>';
+const Speak={
+  rate:1, auto:false, q:[], i:0, tok:0, running:false, paused:false, onEnd:null, mk:null, ui:null,
+  ok(){return 'speechSynthesis' in window && typeof SpeechSynthesisUtterance!=='undefined'},
+  text(html){
+    const d=document.createElement('div');
+    d.innerHTML=String(html).replace(/<\/(td|th)>/g,', </$1>').replace(/<\/(tr|li|p|h2|h3|div)>/g,'. </$1>');
+    return (d.textContent||'').replace(/\s+/g,' ').replace(/\s([,.])/g,'$1').replace(/\.\s*\./g,'.').trim();
+  },
+  chunks(t){
+    const parts=t.match(/[^.!?;:]+[.!?;:]?/g)||[t]; const out=[]; let cur='';
+    parts.forEach(p=>{ if((cur+p).length>170&&cur){out.push(cur);cur=p}else cur+=p });
+    if(cur) out.push(cur); return out;
+  },
+  voices(){
+    const vs=speechSynthesis.getVoices?speechSynthesis.getVoices():[];
+    const es=vs.filter(v=>(v.lang||'').toLowerCase().replace('_','-').startsWith('es'));
+    es.forEach(v=>v._s=this.score(v)); return es.sort((a,b)=>b._s-a._s);
+  },
+  score(v){
+    const n=(v.name||'').toLowerCase(), l=(v.lang||'').toLowerCase().replace('_','-'); let sc=0;
+    if(/natural|neural|online|premium|enhanced|wavenet|google/.test(n)) sc+=50;
+    if(/camila|dalia|sabina|elvira|paloma|salome|paulina|monica|mónica|helena|laura|lucia|lucía|marisol|female|mujer/.test(n)) sc+=30;
+    if(/jorge|raul|raúl|pablo|diego|carlos|alvaro|álvaro|male\b/.test(n)) sc-=20;
+    if(l.startsWith('es-pe')) sc+=12; else if(/^es-(mx|us|419)/.test(l)) sc+=8; else if(l.startsWith('es-es')) sc+=3;
+    if(v.localService===false) sc+=5; return sc;
+  },
+  pick(){
+    const ls=this.voices(); let name=null; try{name=localStorage.getItem('mpc_voice')}catch(e){}
+    if(name){const f=ls.find(v=>v.name===name); if(f) return f}
+    return ls[0]||null;
+  },
+  nextVoice(){
+    const ls=this.voices(); if(!ls.length) return null;
+    const v=ls[(ls.indexOf(this.pick())+1)%ls.length];
+    try{localStorage.setItem('mpc_voice',v.name)}catch(e){} return v;
+  },
+  play(items,onEnd){
+    if(!this.ok()||!items.length) return;
+    this.stop(); this.q=items; this.i=0; this.onEnd=onEnd||null; this.running=true; this.paused=false;
+    const tok=++this.tok; this.refresh(); this.next(tok);
+  },
+  next(tok){
+    if(tok!==this.tok) return;
+    if(this.i>=this.q.length) return this.finish();
+    const it=this.q[this.i++]; this.mark(it.el); if(it.on) it.on();
+    const ch=this.chunks(it.text||''); let k=0; const v=this.pick();
+    const go=()=>{
+      if(tok!==this.tok) return;
+      if(k>=ch.length) return setTimeout(()=>this.next(tok),it.pause||300);
+      const u=new SpeechSynthesisUtterance(ch[k++]);
+      u.lang=v?v.lang:'es-PE'; u.rate=this.rate; u.pitch=1.05; if(v) u.voice=v;
+      u.onend=go; u.onerror=go; try{speechSynthesis.speak(u)}catch(e){go()}
+    };
+    go();
+  },
+  finish(){ const cb=this.onEnd; this.onEnd=null; this.running=false; this.paused=false; this.mark(null); this.refresh(); if(cb) cb(); },
+  pause(){ if(!this.running) return; if(this.paused){speechSynthesis.resume();this.paused=false}else{speechSynthesis.pause();this.paused=true} this.refresh(); },
+  stop(){ this.tok++; this.running=false; this.paused=false; this.onEnd=null; this.mark(null); if(this.ok()) speechSynthesis.cancel(); this.refresh(); },
+  mark(el){
+    if(this.mk) this.mk.classList.remove('speaking');
+    this.mk=el||null;
+    if(el){ el.classList.add('speaking'); try{el.scrollIntoView({block:'center',behavior:'smooth'})}catch(e){} }
+  },
+  refresh(){ if(this.ui) this.ui(); }
+};
+if(Speak.ok()&&speechSynthesis.getVoices) speechSynthesis.getVoices();
+try{ Speak.auto = localStorage.getItem('mpc_auto')==='1'; Speak.rate = parseFloat(localStorage.getItem('mpc_rate'))||1; }catch(e){}
+
+function bindPlayer(app,getItems,nextHref){
+  const bar=el(`<div class="player"><button class="pb main" id="pAll">▶ Leer toda la sesión</button><button class="pb" id="pPause" hidden>⏸ Pausa</button><button class="pb" id="pStop" hidden>⏹ Parar</button><button class="pb" id="pVoice">🗣 Voz</button><button class="pb" id="pRate">1×</button><button class="pb" id="pAuto">Auto: no</button></div>`);
+  document.body.appendChild(bar);
+  const all=$('#pAll',bar),pa=$('#pPause',bar),st=$('#pStop',bar),ra=$('#pRate',bar),au=$('#pAuto',bar),vb=$('#pVoice',bar);
+  const rates=[0.9,1,1.15,1.3,1.5];
+  const ui=()=>{
+    all.hidden=Speak.running; pa.hidden=st.hidden=!Speak.running;
+    pa.textContent=Speak.paused?'▶ Seguir':'⏸ Pausa';
+    ra.textContent=Speak.rate+'×'; au.textContent='Auto: '+(Speak.auto?'sí':'no'); au.classList.toggle('on',Speak.auto);
+  };
+  Speak.ui=ui; ui();
+  if(!Speak.ok()){ all.disabled=true; all.textContent='Voz no disponible en este navegador'; }
+  all.onclick=()=>Speak.play(getItems(),()=>{
+    if(Speak.auto&&nextHref){ location.hash=nextHref; setTimeout(()=>{const a=$('#pAll'); if(a&&!a.disabled) a.click()},800); }
+  });
+  pa.onclick=()=>Speak.pause();
+  st.onclick=()=>Speak.stop();
+  ra.onclick=()=>{ Speak.rate=rates[(rates.indexOf(Speak.rate)+1)%rates.length]; try{localStorage.setItem('mpc_rate',Speak.rate)}catch(e){} ui(); };
+  au.onclick=()=>{ Speak.auto=!Speak.auto; try{localStorage.setItem('mpc_auto',Speak.auto?'1':'0')}catch(e){} ui(); };
+  vb.onclick=()=>{
+    const v=Speak.nextVoice(); if(!v){vb.textContent='🗣 Sin voces'; return}
+    vb.textContent='🗣 '+v.name.replace(/Microsoft |Google |Online \(Natural\)|- Spanish.*|\(.*\)/g,'').trim().slice(0,14);
+    Speak.play([{el:null,text:'Hola, así suena esta voz. Vamos a estudiar juntos.'}]);
+  };
+}
+
 function doneBtn(tid,key){
   const d=(state.done[tid]=state.done[tid]||{});
   const b=el(`<button class="btn ghost"></button>`);
@@ -762,62 +894,112 @@ function ol(items,cls){ return `<ol class="${cls||''}">${items.map(i=>`<li>${i}<
 
 function viewTema(app,id){
   const t=TOPICS.find(x=>x.id===id); if(!t){viewTemas(app);return}
-  const idx=TOPICS.indexOf(t);
+  const idx=TOPICS.indexOf(t), prev=TOPICS[idx-1], next=TOPICS[idx+1];
+  const items=[]; const push=(elm,text,secKey,extra)=>{const it=Object.assign({el:elm,text,sec:secKey,pause:350},extra||{});items.push(it);return it};
+  const openOf=d=>()=>{d.open=true};
+  const sayBtn=(host,getItems)=>{ const b=host.querySelector('[data-say]'); if(!b) return; b.onclick=e=>{e.preventDefault();e.stopPropagation();Speak.play(getItems())} };
+
   app.appendChild(el(`<div><a href="#/temas">← Todos los temas</a></div>`));
-  app.appendChild(el(`<div class="hero" style="margin-top:10px"><span class="tag">Tema ${t.id}</span><h1 style="margin-top:8px">${esc(t.title)}</h1><p>${esc(t.sub)}</p>
-    <div class="bar" style="background:#333"><i id="pbar" style="width:${Math.round(topicProgress(t)*100)}%"></i></div></div>`));
+  const hero=el(`<div class="hero" style="margin-top:10px"><span class="tag">Tema ${t.id}</span><h1 style="margin-top:8px">${esc(t.title)}</h1><p>${esc(t.sub)}</p>
+    <div class="bar" style="background:#333"><i id="pbar" style="width:${Math.round(topicProgress(t)*100)}%"></i></div></div>`);
+  app.appendChild(hero);
+  const sl=el(`<div class="seslinks"></div>`);
+  if(prev){const b=el(`<button class="btn ghost">← Sesión anterior<small>${esc(prev.id)} · ${esc(prev.title)}</small></button>`);b.onclick=()=>location.hash='#/tema/'+prev.id;sl.appendChild(b)}
+  if(next){const b=el(`<button class="btn">Siguiente sesión →<small>${esc(next.id)} · ${esc(next.title)}</small></button>`);b.onclick=()=>location.hash='#/tema/'+next.id;sl.appendChild(b)}
+  app.appendChild(sl);
+  push(hero,`Tema ${t.id}. ${t.title}. ${t.sub}. ${t.intro}`,'head',{pause:600});
   app.appendChild(el(`<div class="topic-nav">${secsFor(t).map(([k,l])=>`<a href="#" data-go="sec-${k}">${l}</a>`).join('')}</div>`));
   $('.topic-nav',app).onclick=e=>{const a=e.target.closest('a');if(!a)return;e.preventDefault();$('#'+a.dataset.go).scrollIntoView({behavior:'smooth'})};
 
-  const sec=(k,title,build)=>{const s=el(`<section class="sec" id="sec-${k}"><h2>${title}</h2></section>`);build(s);s.appendChild(doneBtn(t.id,k));app.appendChild(s)};
+  const sec=(k,title,build)=>{
+    const s=el(`<section class="sec" id="sec-${k}"><h2><span>${title}</span>${SAY}</h2></section>`);
+    const start=items.length; push(null,title,k,{pause:400,_head:true}); const hd=items[items.length-1]; hd.el=s.querySelector('h2');
+    build(s,k);
+    s.appendChild(doneBtn(t.id,k)); app.appendChild(s);
+    $('h2 .say',s).onclick=e=>{e.stopPropagation();Speak.play(items.filter(i=>i.sec===k))};
+  };
+  // utilidades para <details> con botón 🔊 en el resumen
+  const det=(title,bodyHtml,open,k,spoken)=>{
+    const d=el(`<details ${open?'open':''}><summary><span class="stx">${esc(title)}</span>${SAY}</summary><div class="body">${bodyHtml}</div></details>`);
+    const it=push(d,spoken||(title+'. '+Speak.text(bodyHtml)),k,{pause:500,on:openOf(d)});
+    sayBtn(d,()=>[it]); return d;
+  };
 
-  sec('obj','Objetivos y escenario',s=>{
-    s.appendChild(el(`<div class="card"><h3>Al finalizar serás capaz de…</h3>${ol(t.objetivos)}</div>`));
-    if(t.escenario) s.appendChild(el(`<div class="card"><h3>Situación de partida</h3>${ol(t.escenario,'steps')}</div>`));
+  sec('obj','Objetivos y escenario',(s,k)=>{
+    const c1=el(`<div class="card"><h3>Al finalizar serás capaz de…</h3>${ol(t.objetivos)}</div>`); s.appendChild(c1);
+    push(c1,'Al finalizar serás capaz de. '+t.objetivos.map(Speak.text).join(' '),k);
+    if(t.escenario){const c2=el(`<div class="card"><h3>Situación de partida</h3>${ol(t.escenario,'steps')}</div>`); s.appendChild(c2); push(c2,'Situación de partida. '+t.escenario.map(Speak.text).join(' '),k)}
   });
-  sec('teo','Teoría',s=>{
-    t.teoria.forEach((x,i)=>{const d=el(`<details ${i===0?'open':''}><summary>${esc(x.t)}</summary><div class="body">${x.h}</div></details>`);s.appendChild(d)});
-    s.appendChild(el(`<div class="quote">${esc(t.quote)}</div>`));
+  sec('teo','Teoría',(s,k)=>{
+    t.teoria.forEach((x,i)=>s.appendChild(det(x.t,x.h,i===0,k)));
+    const q=el(`<div class="quote">${esc(t.quote)}</div>`); s.appendChild(q); push(q,'Idea clave. '+t.quote,k);
   });
-  if(t.reflexion&&t.reflexion.length) sec('ref','Preguntas de reflexión',s=>{
+  if(t.reflexion&&t.reflexion.length) sec('ref','Preguntas de reflexión',(s,k)=>{
     s.appendChild(el('<p class="muted">Piensa tu respuesta y luego despliega la pregunta.</p>'));
-    t.reflexion.forEach(r=>s.appendChild(reveal(r.q,r.a)));
+    t.reflexion.forEach(r=>{
+      const d=el(`<details><summary><span class="stx">${esc(r.q)}</span>${SAY}</summary><div class="body"><p>${esc(r.a)}</p></div></details>`); s.appendChild(d);
+      push(d,'Pregunta. '+r.q,k,{pause:2500});
+      const it=push(d,'Respuesta. '+Speak.text(r.a),k,{pause:600,on:openOf(d)});
+      sayBtn(d,()=>[items[items.indexOf(it)-1],it]);
+    });
   });
-  if(t.caso) sec('cas','Caso aplicado: '+t.caso.titulo,s=>{
+  if(t.caso) sec('cas','Caso aplicado: '+t.caso.titulo,(s,k)=>{
     const c=t.caso;
-    s.appendChild(el(`<div class="card"><h3>Contexto</h3>${ol(c.contexto,'steps')}</div>`));
-    s.appendChild(el(`<details><summary>¿Cuál es el problema?</summary><div class="body"><p>${c.problema}</p></div></details>`));
-    s.appendChild(el(`<details><summary>Análisis paso a paso</summary><div class="body">${ol(c.analisis)}</div></details>`));
-    s.appendChild(el(`<details><summary>Solución estratégica</summary><div class="body">${ol(c.solucion)}</div></details>`));
-    s.appendChild(el(`<details><summary>Resultados esperados</summary><div class="body"><ul>${c.resultados.map(r=>`<li>${r}</li>`).join('')}</ul></div></details>`));
+    const cc=el(`<div class="card"><h3>Contexto</h3>${ol(c.contexto,'steps')}</div>`); s.appendChild(cc);
+    push(cc,'Contexto. '+c.contexto.map(Speak.text).join(' '),k);
+    s.appendChild(det('¿Cuál es el problema?',`<p>${c.problema}</p>`,false,k));
+    s.appendChild(det('Análisis paso a paso',ol(c.analisis),false,k));
+    s.appendChild(det('Solución estratégica',ol(c.solucion),false,k));
+    s.appendChild(det('Resultados esperados',`<ul>${c.resultados.map(r=>`<li>${r}</li>`).join('')}</ul>`,false,k));
   });
-  sec('pra','Pon a prueba tu conocimiento',s=>{
+  sec('pra','Pon a prueba tu conocimiento',(s,k)=>{
     const key=t.id; const q=(state.quiz[key]=state.quiz[key]||{});
-    t.practica.forEach((p,i)=>s.appendChild(p.type==='mcq'?mcq(p,key,i,q):matchQ(p,key,i,q)));
+    t.practica.forEach((p,i)=>{
+      const card=p.type==='mcq'?mcq(p,key,i,q):matchQ(p,key,i,q);
+      card.insertAdjacentHTML('afterbegin',`<div style="float:right;margin-left:8px">${SAY}</div>`); s.appendChild(card);
+      let qs,as;
+      if(p.type==='mcq'){
+        qs=`Pregunta ${i+1}. ${p.q} `+p.opts.map((o,j)=>`Opción ${'ABCD'[j]}. ${o}.`).join(' ');
+        as=`La respuesta correcta es la opción ${'ABCD'[p.c]}. ${p.opts[p.c]}. ${p.fb}`;
+      }else{
+        qs=`Pregunta ${i+1}. ${p.q} Elementos: `+p.pairs.map(x=>x[0]).join('; ')+'. Opciones: '+p.pairs.map(x=>x[1]).join('; ')+'.';
+        as='Respuesta. '+p.pairs.map(x=>`${x[0]}, con ${x[1]}`).join('. ');
+      }
+      push(card,Speak.text(qs),k,{pause:3000});
+      const it=push(card,Speak.text(as),k,{pause:700});
+      card.querySelector('[data-say]').onclick=e=>{e.stopPropagation();Speak.play([items[items.indexOf(it)-1],it])};
+    });
     const sc=el('<p class="small muted" id="qscore"></p>'); s.appendChild(sc); updScore(t);
     if(t.abiertas){
       s.appendChild(el('<h3 style="margin-top:18px">Preguntas abiertas</h3>'));
       s.appendChild(el('<p class="muted small">Redacta tu respuesta en tu propio texto; se guarda automáticamente en este navegador. La guía solo orienta la estructura, no reemplaza tu criterio ni tu experiencia.</p>'));
       const dr=(state.drafts[t.id]=state.drafts[t.id]||{});
       t.abiertas.forEach(a=>{
-        const box=el(`<div class="card"><p><b>${esc(a.q)}</b></p><textarea rows="${a.id==='p11'?9:4}" style="width:100%;font:inherit;padding:8px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--ink)" placeholder="Escribe tu respuesta…"></textarea><div class="small muted wc"></div><details><summary>Guía para responder</summary><div class="body"><p>${esc(a.g)}</p></div></details></div>`);
+        const box=el(`<div class="card"><p><b>${esc(a.q)}</b></p><textarea rows="${a.id==='p11'?9:4}" style="width:100%;font:inherit;padding:8px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--ink)" placeholder="Escribe tu respuesta…"></textarea><div class="small muted wc"></div><details><summary><span class="stx">Guía para responder</span></summary><div class="body"><p>${esc(a.g)}</p></div></details></div>`);
         const ta=$('textarea',box), wc=$('.wc',box);
         ta.value=dr[a.id]||'';
         const upd=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;wc.textContent=n+' palabras'};
         ta.oninput=()=>{dr[a.id]=ta.value;save();upd()}; upd();
         s.appendChild(box);
+        push(box,a.q+' Guía. '+a.g,k,{pause:600});
       });
     }
   });
-  sec('cie','Cierre',s=>{
-    s.appendChild(el(`<div class="card"><h3>Ideas más relevantes</h3>${ol(t.cierre)}</div>`));
-    if(t.refs) s.appendChild(el(`<details><summary>Referencias</summary><div class="body"><ul>${t.refs.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div></details>`));
-    if(t.comp) s.appendChild(el(`<details><summary>Material complementario / notas</summary><div class="body"><ul>${t.comp.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div></details>`));
+  sec('cie','Cierre',(s,k)=>{
+    const c=el(`<div class="card"><h3>Ideas más relevantes</h3>${ol(t.cierre)}</div>`); s.appendChild(c);
+    push(c,'Ideas más relevantes. '+t.cierre.map(Speak.text).join(' '),k);
+    if(t.refs) s.appendChild(el(`<details><summary><span class="stx">Referencias</span></summary><div class="body"><ul>${t.refs.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div></details>`));
+    if(t.comp) s.appendChild(el(`<details><summary><span class="stx">Material complementario / notas</span></summary><div class="body"><ul>${t.comp.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div></details>`));
   });
-  const nav=el('<div class="row" style="justify-content:space-between"></div>');
-  if(TOPICS[idx-1]){const b=el(`<button class="btn ghost">← ${TOPICS[idx-1].id}</button>`);b.onclick=()=>location.hash='#/tema/'+TOPICS[idx-1].id;nav.appendChild(b)}else nav.appendChild(el('<span></span>'));
-  if(TOPICS[idx+1]){const b=el(`<button class="btn">${TOPICS[idx+1].id} →</button>`);b.onclick=()=>location.hash='#/tema/'+TOPICS[idx+1].id;nav.appendChild(b)}
+  push(null,next?`Fin de la sesión ${t.id}. Sigue la sesión ${next.id}: ${next.title}.`:`Fin del curso. Buen trabajo.`,'cie',{pause:100});
+
+  const nav=el('<div class="seslinks" style="margin-top:20px"></div>');
+  if(prev){const b=el(`<button class="btn ghost">← Sesión anterior<small>${esc(prev.id)} · ${esc(prev.title)}</small></button>`);b.onclick=()=>location.hash='#/tema/'+prev.id;nav.appendChild(b)}
+  if(next){const b=el(`<button class="btn">Siguiente sesión →<small>${esc(next.id)} · ${esc(next.title)}</small></button>`);b.onclick=()=>location.hash='#/tema/'+next.id;nav.appendChild(b)}
+  else {const b=el(`<button class="btn alt">Ir al simulacro →<small>Pon a prueba todo el curso</small></button>`);b.onclick=()=>location.hash='#/simulacro';nav.appendChild(b)}
   app.appendChild(nav);
+
+  bindPlayer(app,()=>items,next?'#/tema/'+next.id:null);
 }
 function updScore(t){
   const q=state.quiz[t.id]||{}; const n=t.practica.length; const ans=Object.keys(q).length;
