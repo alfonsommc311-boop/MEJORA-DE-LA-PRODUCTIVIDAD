@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mejora de la Productividad – Estudio</title>
+<style>
+:root{
+  --bg:#f6f5f1; --card:#ffffff; --ink:#1b1b1b; --muted:#5d5d5d; --line:#e2dfd6;
+  --brand:#f5a800; --brand-ink:#1b1b1b; --accent:#d4147f; --ok:#1f8a4c; --bad:#c62828; --soft:#fff4d6;
+  --shadow:0 1px 3px rgba(0,0,0,.08);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#141414; --card:#1f1f1f; --ink:#f0eee8; --muted:#a8a59c; --line:#34322d;
+    --brand:#f5a800; --brand-ink:#141414; --accent:#ff5cb0; --ok:#4cc07f; --bad:#ff7a7a; --soft:#2b2410;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141414; --card:#1f1f1f; --ink:#f0eee8; --muted:#a8a59c; --line:#34322d;
+  --brand:#f5a800; --brand-ink:#141414; --accent:#ff5cb0; --ok:#4cc07f; --bad:#ff7a7a; --soft:#2b2410; --shadow:none;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1,h2,h3,h4{line-height:1.2;margin:0 0 .5em}
+a{color:var(--accent)}
+header.top{background:#111;color:#fff;position:sticky;top:0;z-index:20;border-bottom:4px solid var(--brand)}
+.top-in{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{font-weight:800;letter-spacing:.02em}
+.logo small{display:block;font-weight:400;font-size:.72rem;opacity:.7}
+nav.main{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+nav.main button{background:transparent;color:#fff;border:0;padding:8px 12px;border-radius:6px;cursor:pointer;font:inherit;font-size:.92rem}
+nav.main button:hover{background:#2a2a2a}
+nav.main button.on{background:var(--brand);color:#111;font-weight:700}
+#theme{background:#2a2a2a;color:#fff;border:0;border-radius:6px;padding:8px 10px;cursor:pointer}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 80px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;box-shadow:var(--shadow);margin-bottom:16px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.hero{background:#111;color:#fff;border-radius:12px;padding:28px 22px;margin-bottom:18px;border-left:8px solid var(--brand)}
+.hero h1{font-size:1.9rem}
+.hero p{max-width:62ch;opacity:.9}
+.tag{display:inline-block;background:var(--brand);color:#111;font-weight:700;border-radius:4px;padding:1px 8px;font-size:.78rem}
+.topic-card{cursor:pointer;transition:transform .12s,border-color .12s}
+.topic-card:hover{transform:translateY(-2px);border-color:var(--brand)}
+.bar{height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:10px}
+.bar>i{display:block;height:100%;background:var(--ok);width:0}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+section.sec{margin-bottom:26px;scroll-margin-top:80px}
+section.sec>h2{background:var(--brand);color:var(--brand-ink);padding:10px 14px;border-radius:8px;font-size:1.15rem}
+.topic-nav{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 18px}
+.topic-nav a{text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.85rem}
+.topic-nav a:hover{border-color:var(--brand)}
+details{border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:8px;background:var(--card);margin-bottom:10px}
+details>summary{cursor:pointer;padding:12px 14px;font-weight:700;list-style:none}
+details>summary::-webkit-details-marker{display:none}
+details>summary::after{content:"+";float:right;color:var(--accent);font-weight:800}
+details[open]>summary::after{content:"–"}
+details>.body{padding:0 14px 14px}
+.body p{margin:.5em 0}
+.body ul,.body ol{margin:.4em 0 .4em 1.2em;padding:0}
+table{border-collapse:collapse;width:100%;font-size:.92rem;margin:.6em 0}
+th,td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+th{background:var(--soft)}
+.tablewrap{overflow-x:auto}
+.callout{background:var(--soft);border-left:5px solid var(--brand);padding:12px 14px;border-radius:6px;margin:.8em 0}
+.quote{border-left:5px solid var(--accent);padding:6px 14px;font-style:italic;margin:.8em 0}
+.btn{background:#111;color:#fff;border:0;border-radius:6px;padding:9px 16px;cursor:pointer;font:inherit;font-weight:600}
+.btn:hover{opacity:.88}
+.btn.alt{background:var(--brand);color:#111}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:6px 0;cursor:pointer;font:inherit}
+.opt:hover:not([disabled]){border-color:var(--brand)}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,var(--card))}
+.opt.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,var(--card))}
+.fb{margin-top:8px;padding:10px 12px;border-radius:8px;background:var(--soft);font-size:.92rem}
+.note{font-size:.8rem;color:var(--muted);margin-top:6px}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:1px 9px;font-size:.78rem;color:var(--muted)}
+select{font:inherit;padding:6px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);max-width:100%}
+input[type=number],input[type=text]{font:inherit;padding:7px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);width:110px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.match-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;margin:8px 0}
+@media(max-width:620px){.match-row{grid-template-columns:1fr}}
+.steps{counter-reset:s;list-style:none;margin:0;padding:0}
+.steps li{counter-increment:s;position:relative;padding:8px 8px 8px 44px;margin:6px 0;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.steps li::before{content:counter(s);position:absolute;left:10px;top:8px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;display:grid;place-items:center;font-size:.85rem}
+.cols{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.flash{perspective:900px;height:210px;cursor:pointer;max-width:560px;margin:0 auto 14px}
+.flash-in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.flash.flip .flash-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;border:1px solid var(--line);background:var(--card);font-size:1.1rem}
+.face.back{transform:rotateY(180deg);background:var(--soft);font-size:1rem}
+.chart{display:flex;align-items:flex-end;gap:6px;height:140px;border-bottom:2px solid var(--line);padding:6px 4px 0;margin:10px 0}
+.chart div{flex:1;background:var(--accent);border-radius:4px 4px 0 0;position:relative;min-width:18px;text-align:center;color:#fff;font-size:.7rem}
+.chart div span{position:absolute;top:-16px;left:0;right:0;color:var(--ink)}
+.big{font-size:2.2rem;font-weight:800}
+footer{max-width:1100px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:.8rem}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="logo">Mejora de la Productividad en la Construcción<small>Maestría en Gerencia de la Construcción y Proyectos BIM · Guía de estudio interactiva</small></div>
+    <nav class="main" id="nav"></nav>
+    <button id="theme" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
+  </div>
+</header>
+<main id="app"></main>
+<footer>
+  Aplicación de estudio elaborada a partir de los PDF del curso (subtemas 2.1, 2.2, 3.1, 3.2, 4.1 y 4.2) y de la rúbrica de evaluación. Tu progreso se guarda solo en este navegador.
+</footer>
+
+<script>
+/* ============================================================
+   CONTENIDO (extraído de los PDF del curso)
+   ============================================================ */
+const TOPICS = [
+/* ---------------------------- 2.1 ---------------------------- */
+{
+ id:'2.1', unit:'Unidad 2', title:'Sectorización, tren de actividades y nivel de actividad',
+ sub:'Herramientas de productividad y procesos de mejora continua (Parte 1/2)',
+ intro:'Cómo organizar la obra en sectores equilibrados, sincronizarla con el takt-time, proteger el flujo con buffers y medir en qué invierten su tiempo las cuadrillas.',
+ objetivos:[
+  'Diseñar una estrategia de sectorización y tren de actividades que optimice el uso de recursos y el flujo de trabajo en una edificación.',
+  'Evaluar el impacto de la variabilidad en el flujo de trabajo mediante buffers y actividades de respaldo.',
+  'Analizar los niveles de actividad del personal con herramientas de medición para identificar oportunidades de mejora.'],
+ escenario:[
+  'Constructora de vivienda social en Lima, proyecto de 20 pisos: las cuadrillas de encofrado terminan antes que las de acero, generando tiempos muertos y desorden en el flujo de sectores.',
+  'La gerencia exige un "Tren de Actividades", pero el sindicato teme que un takt-time estricto comprometa la seguridad.',
+  'Ingeniería debe decidir entre mantener el muestreo de trabajo tradicional o invertir en visión artificial (Construction 4.0).'],
+ teoria:[
+  {t:'Sectorización', h:'<p>Dividir el proyecto en áreas de trabajo para <b>equilibrar el flujo productivo</b>. Permite definir cantidades viables de recursos (mano de obra, equipos, materiales, maquinaria) para ejecutarse en una unidad de tiempo, usualmente <b>una jornada</b>.</p><p><b>Diferencia con manufactura:</b> en manufactura el producto avanza por estaciones fijas; en construcción son las <b>actividades</b> las que se desplazan por sectores.</p><div class="callout">Conceptos clave: <b>WIP</b> (trabajo en proceso), <b>cuello de botella</b> (limita el avance global) y <b>capacidad ociosa</b> (recursos no aprovechados).</div>'},
+  {t:'Tren de actividades', h:'<p>Secuencia continua y equilibrada de tareas que se desplazan de un sector a otro, como "vagones" coordinados. Requiere sectores con cargas de trabajo equivalentes.</p>'},
+  {t:'Takt-time', h:'<p>Ritmo de producción necesario para sincronizar la ejecución con la demanda del proyecto. En edificación puede expresarse en <b>horas, días o semanas</b>.</p><p>Fórmula (Gunaki, 2023): <b>takt-time = tiempo total de producción disponible ÷ demanda del cliente</b>. Hay una calculadora en la sección Herramientas.</p>'},
+  {t:'Variabilidad vs. restricción', h:'<div class="tablewrap"><table><tr><th></th><th>Variabilidad</th><th>Restricción</th></tr><tr><td>Qué es</td><td>Cambios o imprevistos que alteran el flujo (rendimientos, clima, disponibilidad real de recursos)</td><td>Condición que impide ejecutar una actividad mientras no se resuelva (falta de material, información, equipo o frente liberado)</td></tr><tr><td>Origen</td><td>Incertidumbre propia de la obra</td><td>Puede identificarse y tratarse de forma anticipada</td></tr></table></div>'},
+  {t:'Buffers', h:'<p>Holguras operativas o <b>tareas suplentes</b> que absorben los efectos de la variabilidad y permiten responder a interrupciones sin detener la producción. No son tiempos muertos: protegen la continuidad del sistema.</p>'},
+  {t:'Nivel de actividad: TP, TC y TNC', h:'<p>Clasificación de Thomas & Ellis (2017):</p><ul><li><b>Trabajo productivo (TP):</b> genera avance físico directo (montaje de acero, instalación de encofrados).</li><li><b>Trabajo contributorio (TC):</b> necesario para que el TP se ejecute, pero sin avance directo (traslado de materiales, preparación de herramientas, alineación).</li><li><b>Trabajo no contributorio (TNC):</b> no aporta valor (esperas, reprocesos, tiempos muertos por falta de recursos). Son pérdidas a minimizar.</li></ul>'},
+  {t:'Carta balance y balanceo de líneas', h:'<p>Sincroniza los tiempos de ciclo de las cuadrillas para asegurar flujo continuo. Se apoya en el análisis del flujo de valor (VSM) para identificar desbalances, tiempos muertos y cuellos de botella (Gunaki, 2023).</p><ol><li>Ajustar el tamaño de las cuadrillas y coordinar velocidades entre actividades.</li><li>Una secuencia inadecuada (tareas rápidas seguidas de lentas) genera acumulaciones y detenciones.</li><li>Redistribuir recursos, incorporar buffers y mantener el trabajo productivo continuo.</li></ol>'},
+  {t:'Cómo medir: muestreo de trabajo vs. visión por computadora', h:'<div class="tablewrap"><table><tr><th>Método</th><th>Pros</th><th>Contras</th></tr><tr><td>Muestreo de trabajo (work sampling)</td><td>Bajo costo inicial; no requiere infraestructura compleja</td><td>Subjetividad del observador; consume tiempo de supervisión; precisión depende de la frecuencia; no detecta micro-ineficiencias</td></tr><tr><td>Reconocimiento automatizado (Computer Vision / IoT)</td><td>Monitoreo continuo y granular; evaluación objetiva</td><td>Inversión en cámaras, sensores y cómputo; depende de iluminación y oclusiones</td></tr></table></div>'}
+ ],
+ reflexion:[
+  {q:'¿Por qué la sectorización es el paso previo indispensable para un tren de actividades eficiente?', a:'Porque divide la obra en unidades de producción con cargas de trabajo equivalentes. Sin ese equilibrio es imposible definir un takt-time constante: algunos "vagones" avanzarían más rápido que otros, generando cuellos de botella y acumulando desperdicios.'},
+  {q:'¿Cómo influye identificar tareas de "bajo valor" en la rentabilidad final?', a:'Permite reducir traslados y esperas y redistribuir recursos hacia actividades que generan avance real. Al reasignar cuadrillas a labores contributivas durante las esperas, se minimiza el desperdicio y el recurso humano siempre genera utilidad operativa.'}],
+ caso:{
+  titulo:'Oficinas de 15 plantas',
+  contexto:['Los vaciados de concreto se hacen en sectores de tamaños desiguales según la disponibilidad diaria de mixer: no hay flujo rítmico.','Acabados e instalaciones eléctricas esperan que avance la ruta crítica: hacinamiento abajo, zonas vacías arriba.','La gerencia contrató más personal sin rediseñar la secuencia: saturación de espacios y más incidentes de seguridad.'],
+  problema:'No hay una sectorización equilibrada, lo que impide un tren de actividades con takt-time constante. Esa falla estructural genera alta variabilidad que el plan no puede absorber.',
+  analisis:['<b>Sectorización desbalanceada:</b> se divide según el suministro externo y no según mediciones de trabajo equivalentes (Brioso, 2017).','<b>Sin tren de actividades:</b> sin sectores uniformes ni ritmo constante, las tareas se detienen o se traslapan de forma ineficiente y peligrosa.','<b>Sin buffers:</b> ante un imprevisto con el concreto el flujo se detiene por completo; no hay Lookahead que identifique restricciones y asigne labores alternativas.'],
+  solucion:['Diagnóstico de proceso: rendimientos y requerimientos de cuadrillas; consultar a staff, cabezas de grupo y trabajadores.','Rediseñar sectores con metrados equivalentes de acero, encofrado y concreto, completables en un día.','Estabilizar el takt-time con una unidad de tiempo estándar para las cuadrillas críticas.','Implementar buffers: inventario de tareas de reserva en el lookahead semanal.','Controlar con carta balance: diagramas de velocidad y ajuste flexible del tamaño de equipos.'],
+  resultados:['Más tiempo de trabajo productivo','Tiempos muertos por espera reducidos en un 20%','Flujo constante y predecible entre niveles','Cumplimiento de hitos del lookahead','Mejor seguridad al evitar hacinamiento']},
+ practica:[
+  {type:'mcq', q:'Obra de edificación: retrasos constantes en encofrados; cuadrillas pierden tiempo buscando herramientas, hay errores de montaje y esperas por falta de coordinación. ¿Qué acción refleja una aplicación integrada de los principios de mejora continua?',
+   opts:['Implementar orden y limpieza, observar directamente el proceso en terreno y establecer mecanismos que eviten errores de montaje.','Aumentar trabajadores, exigir mayor velocidad y reforzar la supervisión de plazos.','Elaborar un nuevo cronograma detallado y controlar con reportes diarios.','Incorporar tecnología de monitoreo para registrar tiempos y analizarlos después.'],
+   c:0, fb:'Integra 5S (orden), observación directa en el lugar (Gemba) y prevención de errores (Poka-Yoke).', inferred:true},
+  {type:'mcq', q:'El residente detecta tiempos muertos, descoordinación y distintas velocidades entre actividades; hay esperas por materiales, tareas de apoyo y bajo avance físico directo. ¿Qué decisión optimiza mejor el desempeño?',
+   opts:['Más supervisores para reforzar la disciplina.','Cronograma más detallado y más reportes diarios.','Clasificar actividades en TP, TC y TNC, implementar carta balance y redistribuir recursos según la velocidad de cada actividad.','Incorporar monitoreo sin modificar la organización del trabajo.'],
+   c:2, fb:'Mide el nivel de actividad y rebalancea recursos: ataca la causa (desbalance), no solo el síntoma.', inferred:true},
+  {type:'match', q:'Relaciona cada concepto con su descripción.',
+   pairs:[['Buffer','Tareas suplentes para absorber la variabilidad de la obra'],['Takt-time','Ritmo de producción para coincidir con la tasa de demanda'],['Sectorización','División del proyecto para equilibrar la línea de producción'],['Trabajo de alto valor','Actividades que generan avance físico directo'],['Tren de actividades','Secuencia de cuadrillas que avanzan por zonas delimitadas']]}],
+ cierre:['La sectorización es una herramienta de equilibrio que garantiza cargas de trabajo uniformes: base de un flujo continuo.','Tren de actividades y takt-time son el pulso del proyecto: sincronizan oferta de mano de obra con demanda de obra.','La variabilidad se gestiona con buffers y tareas suplentes dentro del lookahead: son protección, no tiempo muerto.'],
+ quote:'Dominar el ritmo del takt-time y la protección de los buffers transforma la variabilidad de la obra en una ventaja estratégica.',
+ refs:['Brioso, X. (2017). Synergies between Last Planner System and OHSAS 18001. Building, 1(2).','Gunaki, P. (2023). Value Stream Mapping – Tool to Optimize the Process. Journal of Mines, Metals and Fuels.','Thomas, H. R. & Ellis, R. D. (2017). Construction Site Management and Labor Productivity Improvement. ASCE.'],
+ comp:['Lean Construction México (2023). Last Planner System y Productividad en Obra [Podcast].','UNESCO (2021). Engineering for Sustainable Development.','UNESCO (2017). Educación para los Objetivos de Desarrollo Sostenible.']
+},
+/* ---------------------------- 2.2 ---------------------------- */
+{
+ id:'2.2', unit:'Unidad 2', title:'VSM, Kaizen, Gemba y Poka-Yoke',
+ sub:'Herramientas de productividad y procesos de mejora continua (Parte 2/2)',
+ intro:'Cómo visualizar el flujo de valor, mejorar de forma continua en el lugar real de trabajo y prevenir errores humanos antes de que se vuelvan defectos.',
+ objetivos:[
+  'Sintetizar flujos de materiales e información con mapas de estado actual y futuro.',
+  'Evaluar procesos críticos en el lugar real aplicando el principio de objetividad (Sangenshugi).',
+  'Diseñar mecanismos de control preventivo con Poka-Yoke para eliminar defectos por errores humanos involuntarios.'],
+ escenario:[
+  'Constructora vial andina: pavimentación con maquinaria moderna pero tiempos de ciclo irregulares y 15% de sobrecosto por reejecución de tramos defectuosos.',
+  'Topografía y planta de asfalto están desconectadas; la oficina técnica reporta datos que no coinciden con el frente de obra.',
+  'Decisión: más maquinaria para acelerar, o detenerse a mapear el flujo de valor, bajo presión de penalidades diarias.'],
+ teoria:[
+  {t:'Value Stream Map (VSM)', h:'<p>Herramienta visual basada en Lean Manufacturing y el Sistema de Producción Toyota (Gunaki, 2023) para descubrir, demostrar y reducir desperdicios. Distingue el tiempo y esfuerzo que <b>agregan valor</b> de los que no: estos últimos son <b>Muda</b>.</p><div class="quote">"A través del VSM, los gerentes e ingenieros pueden analizar las actividades de un flujo con foco en la duración de cada tarea, para eliminar las que no añaden valor." — Gunaki (2023)</div>'},
+  {t:'Los 8 desperdicios en construcción', h:'<div class="tablewrap"><table><tr><th>Desperdicio</th><th>Descripción</th></tr><tr><td>Exceso de inventarios</td><td>Materiales sin uso inmediato: costos de almacenamiento y riesgo de deterioro</td></tr><tr><td>Sobreproducción</td><td>Producir antes de lo requerido o en exceso: acumulación y desorden</td></tr><tr><td>Tiempos de espera</td><td>Trabajadores o equipos inactivos por falta de materiales, información o frentes liberados</td></tr><tr><td>Transportes innecesarios</td><td>Movimientos de materiales o equipos que no agregan valor</td></tr><tr><td>Procesamiento inadecuado</td><td>Métodos ineficientes que generan retrabajo o consumen más recursos</td></tr><tr><td>Movimientos no ergonómicos</td><td>Desplazamientos innecesarios por mala organización del espacio</td></tr><tr><td>Fallas / incompatibilidades de calidad</td><td>Errores que obligan a corregir y rehacer</td></tr><tr><td>Desaprovechamiento del talento humano</td><td>Subutilizar capacidades y conocimiento del personal (octavo desperdicio)</td></tr></table></div>'},
+  {t:'Etapas de implementación del VSM', h:'<ol><li><b>Recopilación de datos y flujos:</b> observación directa, estudios de movimiento y entrevistas; flujo de materiales y de información.</li><li><b>Mapa del Estado Actual:</b> diagrama fiel de la situación, con tiempos de ciclo y proporción de valor agregado vs. sin valor.</li><li><b>Análisis y eliminación de desperdicios:</b> cuestionar si cada paso es esencial.</li><li><b>Mapa del Estado Futuro:</b> flujo rediseñado, más económico, rápido y productivo.</li></ol><p>Métrica vital: <b>takt-time = tiempo disponible ÷ demanda del cliente</b>. El VSM es catalizador de Kaizen y se sostiene con 5S.</p>'},
+  {t:'Kaizen y el ciclo PDCA', h:'<p>Mejora progresiva mediante pequeños cambios constantes, involucrando a quienes ejecutan las tareas. Se estructura con el ciclo <b>Planificar – Hacer – Verificar – Actuar (PDCA)</b>: implementar, evaluar y estandarizar para evitar recurrencia de errores.</p><p>Necesita una base ordenada: <b>5S</b> (clasificación, orden, limpieza, estandarización, disciplina).</p>'},
+  {t:'Gemba (principio de objetividad – Sangenshugi)', h:'<p>Gemba = el lugar real donde ocurren las actividades. Tres principios ("tres reales"):</p><ul><li><b>Gemba:</b> ir donde ocurre el trabajo.</li><li><b>Gembutsu:</b> observar el objeto o elemento afectado.</li><li><b>Genjitsu:</b> basarse en hechos reales y verificables.</li></ul><p>Ejemplo: ante retrasos, el supervisor va al lugar, observa y detecta falta de coordinación entre cuadrillas, en lugar de asumir causas.</p>'},
+  {t:'Poka-Yoke (a prueba de errores)', h:'<p>Mecanismos que previenen errores humanos antes de que se transformen en defectos.</p><ol><li><b>Objetivo:</b> evitar fallas durante la ejecución con dispositivos físicos, controles visuales o procedimientos que guíen al trabajador.</li><li><b>Funcionamiento:</b> restringen acciones incorrectas, alertan desviaciones o guían la secuencia.</li><li><b>Aplicación:</b> procesos estables y repetitivos con fallas frecuentes.</li><li><b>Resultado:</b> menos retrabajos, mejor calidad y mayor confiabilidad.</li></ol><p>Ejemplo: guías o moldes que solo permiten ensamblar la pieza en la posición correcta.</p>'}
+ ],
+ reflexion:[
+  {q:'¿Por qué la tecnología avanzada no garantiza por sí sola eliminar desperdicios?', a:'La tecnología acelera una tarea específica, pero si el flujo general está fragmentado solo acelera la creación de inventario o esperas. Sin una metodología como el VSM puede automatizar la ineficiencia. Si las demás etapas no están balanceadas, el proceso seguirá con cuellos de botella.'},
+  {q:'¿Cómo influye el principio de Gemba en la veracidad de los indicadores de productividad?', a:'Elimina el sesgo de los informes subjetivos de oficina al confrontar la teoría con la realidad del terreno. Al observar el objeto real y los hechos reales se obtienen datos precisos de tiempos de ciclo y las decisiones se basan en la ejecución genuina.'}],
+ caso:{
+  titulo:'Edificios residenciales de alta densidad',
+  contexto:['Acabados interiores con 20% de retraso respecto al cronograma maestro; el flujo de materiales a niveles superiores es errático.','Yeseros y pintores pierden horas buscando herramientas o esperando el elevador de carga; improvisan soluciones que comprometen la calidad.','Con multas contractuales cerca, la dirección busca estandarizar el orden en cada piso, no solo acelerar.'],
+  problema:'Desconexión entre la planificación teórica y la realidad del flujo de valor: no se identifican los desperdicios por espera y movimiento, y faltan control preventivo de errores y organización física.',
+  analisis:['<b>Esperas y movimientos innecesarios:</b> desde el VSM son Muda pura; dilatan el lead time y reducen el tiempo efectivo por jornada.','<b>Ruptura del principio de objetividad:</b> la gerencia resolvió desde la oficina, sin Gemba Walk; no observó el flujo real de material ni la congestión del elevador.','<b>Falta de estandarización (5S):</b> sin clasificación y orden previos cualquier mejora se pierde en el caos y no se sostiene un takt-time.'],
+  solucion:['Mapeo del estado actual y futuro del flujo logístico vertical, sincronizando llegada de materiales con el consumo de las cuadrillas.','Campaña 5S: micro-almacenes por piso, clasificados y señalizados.','Sesiones Kaizen diarias de 10 minutos en el Gemba para que operarios propongan mejoras.','Dispositivos Poka-Yoke: guías físicas y plantillas de verificación (p. ej. dosificación de mezclas).'],
+  resultados:['Reducción del 15% en el lead time de entrega de acabados por torre','Eliminación del 90% de los tiempos de espera por suministro en pisos altos','Menos costos de retrabajo gracias a controles Poka-Yoke','Mayor moral del personal en un entorno seguro y ordenado']},
+ practica:[
+  {type:'mcq', q:'El jefe de obra ve acumulación de materiales, operarios esperando instrucciones y desplazamientos innecesarios. Aplica una herramienta para visualizar el flujo completo. ¿Cuál es la finalidad principal del VSM aquí?',
+   opts:['Incrementar actividades por jornada redistribuyendo cuadrillas.','Visualizar integralmente el flujo para identificar desperdicios y rediseñar el proceso de forma más eficiente.','Sustituir la supervisión en terreno por métricas digitales.','Medir solo el rendimiento individual de cada trabajador.'],
+   c:1, fb:'El VSM no mide personas ni sustituye la observación: expone el flujo completo y sus desperdicios.', inferred:true},
+  {type:'mcq', q:'El supervisor reorganiza y estandariza el espacio, luego observa la operación en terreno para hallar la causa raíz y finalmente instala guías físicas que aseguran el posicionamiento de las piezas. ¿Qué combinación de herramientas aplicó?',
+   opts:['Carta balance, VSM y buffers operativos.','Sectorización, takt-time y balanceo de líneas.','Kaizen, Gemba y Poka-Yoke.','Last Planner System, Lookahead y control de restricciones.'],
+   c:2, fb:'5S/Kaizen (orden), Gemba (observar el lugar real) y Poka-Yoke (guías a prueba de error).', inferred:true},
+  {type:'match', q:'Relaciona cada herramienta con su descripción.',
+   pairs:[['Poka-Yoke','Mecanismo físico que impide un error humano'],['Kaizen','Mejora continua basada en pequeños cambios'],['Value Stream Map (VSM)','Visualización del flujo y detección de Muda'],['Gemba','Ir al sitio real para observar el problema']]}],
+ cierre:['El VSM es un diagnóstico estratégico: distingue el flujo que genera rentabilidad de las actividades que solo consumen recursos y reduce el lead time.','Kaizen y Gemba muestran que la mejor optimización nace donde ocurre la acción: personal empoderado y decisiones basadas en hechos comprobables.'],
+ quote:'La productividad no es el resultado de trabajar más rápido, sino de diseñar flujos donde el valor corra sin obstáculos.',
+ refs:['Brioso, X. (2017). Synergies between Last Planner System and OHSAS 18001. Building, 1(2).','Gunaki, P. (2023). Value Stream Mapping – Tool to Optimize the Process.','Karkoszka, T. & Honorowicz, J. (2009). Kaizen philosophy a manner of continuous improvement of processes and products. JAMME, 35(2).','Thomas, H. R. & Ellis, R. D. (2017). Construction Site Management and Labor Productivity Improvement. ASCE.'],
+ comp:['CEPAL (2020). Tecnologías digitales para un nuevo futuro.','Hernández, M. & Vizán, A. (2017). Lean Manufacturing: Concepto, técnicas e implantación. EOI.','Lean Strategies International (2021). Introduction to Poka-Yoke [Video].']
+},
+/* ---------------------------- 3.1 ---------------------------- */
+{
+ id:'3.1', unit:'Unidad 3', title:'Producción en serie vs. construcción (Parte 1)',
+ sub:'Tendencias de la industria, Construcción 4.0 y Sistema de Producción Toyota',
+ intro:'Las tendencias tecnológicas que transforman la construcción y por qué los principios del Sistema de Producción Toyota deben adaptarse a proyectos únicos y variables.',
+ objetivos:[
+  'Analizar las tendencias tecnológicas y organizacionales que transforman la industria de la construcción.',
+  'Evaluar los principios del Sistema de Producción Toyota y su relación con la productividad industrial.',
+  'Interpretar las posibilidades y limitaciones de aplicar modelos industriales en construcción.'],
+ escenario:[
+  'Constructora latinoamericana en un proyecto de vivienda social a gran escala: retrasos por coordinación entre subcontratistas, falta de materiales y cambios en la programación.',
+  'El director analiza otros sectores e identifica el Sistema de Producción Toyota como modelo para optimizar flujos y reducir desperdicios.',
+  'Pero el equipo advierte: la construcción no es una fábrica; cada edificio es distinto y las condiciones del terreno cambian.'],
+ teoria:[
+  {t:'Construcción 4.0 y los 4 factores globales', h:'<p>No es una suma de herramientas sino un <b>cambio sistémico</b> que fusiona lo físico y lo digital en todo el ciclo de vida del proyecto (Casini, 2022). Cuatro factores: (1) exigencia de <b>sostenibilidad</b>, (2) <b>cambios demográficos</b> (urbanización y envejecimiento laboral), (3) <b>hiperconectividad digital</b>, (4) impacto de <b>problemas de salud global</b> (COVID-19).</p>'},
+  {t:'BIM y gemelos digitales', h:'<p>BIM pasó de sustituto 3D del CAD a entorno colaborativo de datos: <b>3D</b> geometría, <b>4D</b> tiempo, <b>5D</b> costos, <b>6D</b> sostenibilidad, <b>7D</b> operación y gestión.</p><p>Un <b>gemelo digital</b> es una réplica virtual dinámica y viva de la estructura, actualizada por sensores IoT: simula comportamiento, anticipa fallas, permite mantenimiento predictivo y optimiza la energía.</p>'},
+  {t:'Inteligencia artificial y realidad extendida', h:'<ul><li><b>Diseño:</b> diseño generativo; la IA evalúa miles de alternativas estructurales y espaciales.</li><li><b>Construcción:</b> algoritmos que predicen sobrecostos, optimizan cronogramas y automatizan la gestión administrativa.</li><li><b>Visualización (XR):</b> realidad virtual, aumentada y mixta superponen modelos a escala real: control de calidad, inspección y formación segura.</li></ul>'},
+  {t:'Industrialización, prefabricación y modularidad', h:'<p>Traslada trabajo complejo del incierto entorno de obra a <b>fábricas controladas</b>, ya sea con componentes ensamblables 2D o módulos volumétricos 3D (con acabados e instalaciones). Beneficios: plazos más veloces, calidad constante y hasta <b>90% menos de residuos</b> (Casini, 2022).</p>'},
+  {t:'Automatización, robótica y visión por computadora', h:'<ul><li><b>Drones (UAV):</b> inspecciones fotogramétricas y mapeos contrastados con el modelo BIM.</li><li><b>Vehículos autónomos y robots</b> para excavación, movimiento de tierras, ladrillos, soldadura, demolición.</li><li><b>Exoesqueletos:</b> menos fatiga y lesiones musculoesqueléticas.</li><li><b>Impresión 3D</b> de hormigón: geometrías complejas sin encofrados costosos.</li><li><b>Visión por computadora:</b> evalúa eficiencia laboral reconociendo acciones y uso de herramientas en tiempo real (Zhang et al., 2025). También detecta falta de EPP y predice interacciones peligrosas; se apoya en wearables IoT.</li></ul>'},
+  {t:'Sostenibilidad y economía circular', h:'<p>El entorno construido genera cerca del <b>40%</b> de emisiones y consumo de materias primas (Casini, 2022). Tendencias: edificios de energía cero (ZEB), procesos circulares (no "extraer-usar-tirar"), <b>diseño para la deconstrucción</b> con pasaportes de materiales, y materiales avanzados (hormigón autorreparable, aerogeles, <b>Mass Timber/CLT</b> como sumidero de carbono).</p>'},
+  {t:'Sistema de Producción Toyota (TPS)', h:'<p>Desarrollado por <b>Taiichi Ohno</b> y <b>Eiji Toyoda</b> en la Toyota Motor Corporation como respuesta a la imposibilidad de competir con la producción masiva fordista. Producir <b>solo lo necesario, cuando es necesario y en la cantidad necesaria</b>; origen del lean manufacturing.</p><div class="cols"><div class="card"><h4>Just in Time</h4><p class="small">Cada etapa produce solo lo que requiere la siguiente. Herramienta: <b>kanban</b> (señal visual que regula el flujo de materiales; creado por Ohno). Reduce inventarios, esperas y sobreproducción.</p></div><div class="card"><h4>Jidoka</h4><p class="small">Automatización con control humano: máquinas y trabajadores pueden detener el proceso al detectar un problema, evitando que el defecto se propague. Calidad desde el origen. Origen: <b>Sakichi Toyoda</b>.</p></div></div>'},
+  {t:'Muda (7 + 1) y Kaizen', h:'<p>Siete desperdicios: sobreproducción, tiempos de espera, transporte innecesario, procesamiento excesivo, inventarios innecesarios, movimientos innecesarios y defectos/retrabajo; más el <b>octavo: desperdicio del talento</b>.</p><p><b>Kaizen:</b> mejora continua con pequeños ajustes constantes; los trabajadores participan activamente en identificar problemas y optimizar procesos. Esta filosofía inspiró Lean Construction.</p>'},
+  {t:'Lean Construction y Last Planner System', h:'<p>La estandarización de procesos y las reuniones colaborativas de replanificación erradican desperdicios, reducen cuellos de botella y fomentan un flujo continuo (Brioso, 2017). Sumada a la tecnología digital y al control de la variabilidad, perfila una industria tecnificada, conectada, sostenible y segura.</p>'},
+  {t:'Limitaciones: ¿por qué no es una fábrica?', h:'<div class="callout">La producción en serie es repetitiva y estandarizada; los proyectos de construcción son <b>únicos, temporales y altamente variables</b>. Por eso los principios del TPS deben <b>adaptarse</b>, no copiarse (técnicamente: procesos estandarizados vs. proyecto único; estratégicamente: adaptar sin perder flexibilidad).</div>'}
+ ],
+ reflexion:[
+  {q:'¿Por qué la productividad en la construcción suele ser menor que en la manufactura?', a:'La construcción opera en entornos altamente variables donde cada proyecto es único, lo que dificulta estandarizar procesos. Los proyectos deben adaptarse a cambios de diseño, condiciones del terreno y coordinación entre múltiples actores.'},
+  {q:'¿Qué ventajas podría aportar adoptar principios industriales en la construcción?', a:'Mejor planificación del flujo de trabajo, menos desperdicios y mejor coordinación entre equipos. Aunque no se aplican de forma idéntica, ofrecen marcos metodológicos que mejoran productividad, calidad y control.'}],
+ caso:{
+  titulo:'Densificación urbana',
+  contexto:['Conjunto de edificios residenciales con múltiples subcontratistas y cronograma ajustado por compromisos con el municipio.','Retrasos: cuadrillas detenidas por falta de materiales, incompatibilidades entre especialidades y cambios tardíos en planos.','La gerencia analiza el TPS y los principios Lean para mejorar la coordinación y reducir pérdidas.'],
+  problema:'Ausencia de un sistema de planificación y control del flujo de trabajo que coordine las actividades y anticipe restricciones; no son solo fallas operativas aisladas.',
+  analisis:['<b>Desalineación planificación–ejecución:</b> programación lineal tradicional sin restricciones reales.','<b>Falta de sincronización:</b> subcontratistas independientes; contrasta con Just in Time.','<b>Sin control de calidad en origen:</b> errores detectados tarde; contradice Jidoka.','<b>Poca participación del equipo:</b> contrasta con Kaizen.'],
+  solucion:['Planificación colaborativa: reuniones semanales de coordinación y sesiones de Pull Planning.','Integrar Just in Time: coordinar suministro y programación para evitar inventarios y esperas.','Aplicar Jidoka: protocolos de control en origen que permitan detener el proceso ante errores.','Promover mejora continua con participación del equipo (Kaizen).'],
+  resultados:['Menos interrupciones en el flujo','Menos reprocesos','Mejor coordinación entre subcontratistas','Más productividad de las cuadrillas','Mayor control del avance real']},
+ practica:[
+  {type:'mcq', q:'Una constructora aumenta los materiales almacenados en obra para evitar retrasos por falta de insumos, pero genera congestión y más tiempos de manipulación. ¿Cuál es la interpretación más adecuada desde el TPS?',
+   opts:['El aumento de inventarios es una estrategia adecuada para asegurar continuidad.','El exceso de inventario es un desperdicio que oculta problemas de planificación y flujo de trabajo.','La gestión de inventarios es responsabilidad exclusiva de logística y no afecta la productividad.','El problema es solo la falta de espacio físico.'],
+   c:1, fb:'"El inventario excesivo no es una solución de contingencia; es una señal de que el flujo productivo tiene problemas que aún no se han identificado ni resuelto."', inferred:false},
+  {type:'match', q:'Relaciona cada situación con el principio que le corresponde.',
+   pairs:[['Detener el proceso cuando aparece un defecto','Jidoka'],['Mejora continua impulsada por los trabajadores','Kaizen'],['Eliminación sistemática de desperdicios','Lean Production'],['Producir solo cuando el proceso siguiente lo requiere','Just in Time']], inferred:true}],
+ cierre:['La transformación digital (BIM, IA, gemelos digitales) mejora la planificación, anticipa riesgos y optimiza el ciclo de vida.','El TPS demuestra que la productividad no depende de aumentar la capacidad de trabajo sino de diseñar procesos que reduzcan desperdicios y aseguren calidad desde el origen.','La construcción enfrenta mayor variabilidad: los principios industriales requieren adaptaciones metodológicas.'],
+ quote:'La productividad en la construcción no depende solo de trabajar más rápido, sino de diseñar sistemas de trabajo que eliminen desperdicios, coordinen procesos y transformen la planificación en un flujo continuo de valor.',
+ refs:['Brioso, X. (2017). Synergies between Last Planner System and OHSAS 18001. Building, 1(2).','Casini, M. (2022). Construction 4.0. Woodhead.','Karkoszka, T. & Honorowicz, J. (2009). Kaizen philosophy… JAMME, 35(2).','Zhang, C. et al. (2025). Moving Toward Automated Construction Management. Buildings, 15(14), 2479.'],
+ comp:['McKinsey & Company (2020). The next normal in construction.','Oladunni, O. (2025). Advances in sustainable additive manufacturing for construction. Frontiers in Built Environment.','Lean Enterprise Institute (2021). Toyota Production System – Basic Principles.']
+},
+/* ---------------------------- 3.2 ---------------------------- */
+{
+ id:'3.2', unit:'Unidad 3', title:'Los 7 desperdicios y las 5S (Parte 2)',
+ sub:'Producción en serie vs. industria de la construcción (Parte 2/2)',
+ intro:'Identificar actividades que no generan valor y organizar el entorno de trabajo con la metodología 5S como base de la mejora continua.',
+ objetivos:[
+  'Identificar los principales desperdicios productivos en proyectos de construcción.',
+  'Analizar cómo la metodología 5S mejora la organización del trabajo en obra.',
+  'Aplicar principios de mejora continua para optimizar procesos productivos.'],
+ escenario:[
+  'Edificio de oficinas en una capital latinoamericana: personal experimentado y recursos suficientes, pero retrasos significativos en varias etapas.',
+  'El análisis revela trabajadores esperando instrucciones de diseño, materiales lejos del área de trabajo y equipos repitiendo tareas por errores de coordinación.',
+  'La gerencia aplica herramientas Lean: identificar desperdicios, reorganizar con 5S y mejorar la eficiencia operativa.'],
+ teoria:[
+  {t:'Los 7 desperdicios (Muda) con casos de obra', h:'<p>Muda: toda actividad que consume recursos, tiempo o esfuerzo sin aportar valor al producto final (Karkoszka & Honorowicz, 2009).</p><div class="tablewrap"><table><tr><th>Desperdicio</th><th>Qué es</th><th>Caso de obra</th></tr><tr><td>Sobreproducción</td><td>Fabricar más de lo requerido o antes de que el siguiente proceso lo necesite</td><td>Tabiques de yeso fabricados antes de terminar la instalación eléctrica; luego hay que ajustarlos</td></tr><tr><td>Inventarios excesivos</td><td>Acumulación injustificada de materiales que supera la necesidad inmediata</td><td>Cemento recibido semanas antes: humedad, traslados repetidos y parte inutilizable</td></tr><tr><td>Tiempos de espera</td><td>Operarios o maquinaria inactivos por tarea previa, materiales o información</td><td>Cuadrilla de cerámicos sin iniciar porque el contrapiso no fue liberado</td></tr><tr><td>Transporte innecesario</td><td>Traslado de materiales/equipos sin agregar valor</td><td>Ladrillos acopiados al extremo del lote; carretillas con largos recorridos</td></tr><tr><td>Procesamiento inadecuado</td><td>Métodos o herramientas no apropiadas, pasos innecesarios</td><td>Cortes repetitivos de perfiles con herramientas manuales en lugar de un sistema preciso</td></tr><tr><td>Movimientos innecesarios</td><td>Desplazamientos evitables, búsqueda de herramientas, posturas forzadas</td><td>Instalador sube y baja una escalera buscando herramientas no preparadas</td></tr><tr><td>Defectos / retrabajos</td><td>Errores que obligan a rehacer lo ejecutado</td><td>Muro que interfiere con una instalación sanitaria mal contemplada en planos: se demuele y rehace</td></tr></table></div><div class="callout"><b>Octavo desperdicio:</b> desaprovechamiento del talento humano (p. ej. una cuadrilla propone un mejor acopio y no se la escucha).</div><p>El objetivo de VSM y la planificación Lean es identificar visualmente estos desperdicios, analizar sus causas y erradicarlos.</p>'},
+  {t:'Las 5S: origen y propósito', h:'<p>Base de la filosofía Kaizen y Lean; conjunto de buenas costumbres derivadas del comportamiento tradicional en el hogar y la escuela japoneses. En la construcción es una herramienta para lograr un entorno <b>limpio, seguro y controlable</b>.</p><ol class="steps"><li><b>Seiri</b> – Selección/Clasificación: preparar el lugar, métodos e instrumentos eliminando lo inútil o innecesario para la tarea actual.</li><li><b>Seiton</b> – Orden sistemático: pulcritud; organizar herramientas e insumos para su uso simple, rápido y eficiente.</li><li><b>Seiso</b> – Limpieza: mantenimiento del orden y la pureza en obra; aumenta la seguridad, facilita el control de equipos y fomenta la responsabilidad sobre los medios de producción.</li><li><b>Seiketsu</b> – Estandarización/Consolidación: recordar los deberes de cuidado de herramientas y mantener el orden logrado en las etapas anteriores.</li><li><b>Shitsuke</b> – Disciplina y autodisciplina: adaptación a normas de la organización, eliminación independiente de malas costumbres y capacitación continua.</li></ol><div class="callout">Ninguna mejora es sostenible sin este cimiento: las 5S son requisito previo del Kaizen y elevan el involucramiento y la moral del empleado (Karkoszka & Honorowicz, 2009).</div>'}
+ ],
+ reflexion:[
+  {q:'¿Por qué es importante identificar los desperdicios productivos en un proyecto?', a:'Permite reconocer actividades que consumen recursos sin generar valor. Al analizar estas pérdidas se rediseñan procesos, se optimiza la planificación y mejora el flujo de trabajo, reduciendo costos y retrasos y aumentando la productividad.'},
+  {q:'¿Cómo contribuye la metodología 5S a la eficiencia en obra?', a:'Organiza el entorno mediante clasificación, orden, limpieza, estandarización y disciplina. Reduce tiempos de búsqueda, mejora la seguridad y facilita el control de herramientas y materiales: un entorno más eficiente y propicio para la mejora continua.'}],
+ caso:{
+  titulo:'Hospital regional',
+  contexto:['Constructora latinoamericana ejecuta un hospital regional financiado por el Estado, con múltiples especialidades y alta presión por plazos.','Gran parte del tiempo de las cuadrillas se pierde en actividades indirectas: buscar herramientas, trasladar materiales, esperar instrucciones y repetir tareas por errores.','La gerencia aplica herramientas Lean y 5S.'],
+  problema:'Pérdida significativa de productividad por actividades sistemáticas que no agregan valor y que no han sido identificadas ni gestionadas en el sistema de planificación.',
+  analisis:['<b>Tiempos de espera:</b> cuadrillas inactivas esperando materiales o instrucciones de diseño.','<b>Movimientos innecesarios:</b> recorridos largos por herramientas mal ubicadas.','<b>Retrabajo por defectos:</b> detección tardía obliga a repetir actividades.','<b>Desorganización del entorno:</b> sin orden no se controlan herramientas, materiales ni equipos.'],
+  solucion:['Identificación sistemática de desperdicios clasificándolos según los siete de Lean.','Implementar 5S: clasificación, orden, limpieza, estandarización y disciplina.','Rediseñar el flujo: reorganizar materiales, herramientas y estaciones para reducir desplazamientos.','Control temprano de calidad para detectar errores antes de que se propaguen.'],
+  resultados:['Menos tiempos improductivos','Menos movimientos innecesarios','Menos retrabajos','Mejor seguridad y orden','Mayor eficiencia operativa']},
+ practica:[
+  {type:'match', q:'Relaciona cada situación de obra con el desperdicio que representa.',
+   pairs:[['Desplazamiento excesivo para buscar herramientas','Movimiento innecesario'],['Acumulación de materiales sin uso inmediato','Inventario excesivo'],['Espera de trabajadores por falta de materiales','Tiempo de espera'],['Repetición de tareas por errores constructivos','Retrabajo']]},
+  {type:'mcq', q:'¿Cuál es el orden correcto de las 5S?',
+   opts:['Seiri, Seiton, Seiso, Seiketsu, Shitsuke','Seiton, Seiri, Seiketsu, Seiso, Shitsuke','Seiso, Seiri, Seiton, Shitsuke, Seiketsu','Shitsuke, Seiketsu, Seiso, Seiton, Seiri'],
+   c:0, fb:'Clasificar, Ordenar, Limpiar, Estandarizar y Disciplinar.', inferred:false}],
+ cierre:['Los siete desperdicios permiten reconocer actividades que consumen recursos sin generar valor; identificarlos facilita rediseñar procesos y aumentar la eficiencia.','Las 5S organizan el entorno: reducen tiempos improductivos, mejoran la seguridad y facilitan la mejora continua.','La mejora continua requiere equipos que participen activamente en identificar problemas y soluciones, con una cultura de aprendizaje.'],
+ quote:'La productividad no se logra trabajando más rápido, sino eliminando sistemáticamente todo aquello que no genera valor en el proceso productivo.',
+ refs:['Brioso, X. (2017). Synergies between Last Planner System and OHSAS 18001. BUILDING, 1(2).','Casini, M. (2022). Construction 4.0. Woodhead / Elsevier.','Karkoszka, T. & Honorowicz, J. (2009). Kaizen philosophy… JAMME, 35(2).','Zhang, C. et al. (2025). Buildings, 15(14), 2479.'],
+ comp:['McKinsey Global Institute (2024). Infrastructure productivity: Improving project selection and delivery.','Garcés, G. et al. (2025). Systematic review of Lean Construction. J. Infrastructure Preservation and Resilience.','Lean Enterprise Institute (2024). Seven Wastes.']
+},
+/* ---------------------------- 4.1 ---------------------------- */
+{
+ id:'4.1', unit:'Unidad 4', title:'Last Planner System y Pull Planning',
+ sub:'Uso del Last Planner System, pull planning y tecnología aplicada (Parte 1/2)',
+ intro:'Cómo planificar progresivamente, liberar restricciones antes de programar y medir la confiabilidad del plan con el PPC.',
+ objetivos:[
+  'Analizar la estructura y funcionamiento del Last Planner System en la gestión de proyectos.',
+  'Evaluar el rol del Pull Planning como herramienta de planificación colaborativa en obra.',
+  'Interpretar los indicadores de desempeño asociados a la confiabilidad del sistema de planificación.'],
+ escenario:[
+  'Complejo habitacional financiado por programa estatal, con muchos subcontratistas y un cronograma ajustado.',
+  'Aparecen cuadrillas esperando materiales, interferencias entre especialidades y tareas no liberadas de restricciones.',
+  'La dirección implementa LPS y sesiones de Pull Planning con los responsables directos de la ejecución.'],
+ teoria:[
+  {t:'Last Planner System (LPS)', h:'<p>Desarrollado por <b>Glenn Ballard</b>: metodología de control de producción diseñada para superar los obstáculos de la construcción. Parte de la premisa de que la planificación tradicional falla porque <b>los pronósticos a largo plazo suelen estar errados</b> (Brioso, 2017). Mejora la confiabilidad del flujo reduciendo variabilidad y exigiendo mayor detalle a medida que se acerca la ejecución.</p>'},
+  {t:'Niveles del LPS', h:'<ol class="steps"><li><b>Cronograma maestro:</b> plazos e hitos generales y duración de fases; define sistemas constructivos sin entrar al detalle operativo.</li><li><b>Planificación por fases (Phase Pull Planning)</b> y <b>Lookahead</b> (mediano plazo): identifica y libera restricciones.</li><li><b>Programación semanal:</b> solo actividades ya libres de restricciones; usa buffers, alternativas, medidas de seguridad y asignación de recursos.</li><li><b>Programación diaria:</b> detalla actividades a nivel operativo; monitorea rendimiento, verifica herramientas, ajusta cuadrillas.</li></ol><div class="callout">El Phase Pull Planning no es un nivel más: son reuniones que se hacen en todas las fases del LPS. Programación semanal y diaria son etapas distintas con objetivos diferentes.</div>'},
+  {t:'Gestión de corto plazo: 4 elementos', h:'<ul><li><b>Programación semanal</b> (Weekly Work Planning).</li><li><b>Reunión semanal de coordinación:</b> con últimos planificadores; compromisos, PPC, análisis de desviaciones con los 5 porqués; en entornos BIM/IPD se resuelven problemas de diseño y constructabilidad.</li><li><b>Programación diaria.</b></li><li><b>Stand-up meetings / toolbox meetings:</b> reuniones breves de inicio de jornada; coordinan, sincronizan y refuerzan medidas de seguridad.</li></ul>'},
+  {t:'Push vs. Pull', h:'<div class="tablewrap"><table><tr><th>Push (empujar)</th><th>Pull (tirar)</th></tr><tr><td>Trabajo y materiales impuestos según cronogramas teóricos</td><td>La producción es traccionada por la demanda: una actividad empieza solo cuando el "cliente interno" (la cuadrilla siguiente) está listo</td></tr><tr><td>Programa según fechas estimadas</td><td>Planifica <b>en reversa</b> desde un hito, hasta la fecha de inicio ("último momento responsable")</td></tr></table></div>'},
+  {t:'Sesión de Pull Planning: 5 elementos', h:'<ol><li><b>Últimos planificadores:</b> jefes de obra, subcontratistas, proveedores y áreas de soporte (SST).</li><li><b>Programación en reversa:</b> prioriza tareas críticas y revela interdependencias.</li><li><b>Gestión visual:</b> paneles con post-its de colores, un color por cuadrilla.</li><li><b>Discusión cara a cara (Big Room):</b> operarios aportan experiencia para detectar restricciones.</li><li><b>Red de compromisos:</b> decisiones consensuadas que se vuelven acuerdos inquebrantables, modificables solo por acuerdo de todos.</li></ol>'},
+  {t:'Ventajas y resistencias', h:'<p><b>Ventajas (Casini, 2022):</b> detección temprana de problemas, mayor fiabilidad y compromiso (fechas realistas con buffers), flujos de trabajo estables. Además: más productividad, menos pérdidas de tiempo, más colaboración y proyectos más seguros (Brioso, 2017).</p><p><b>Resistencias:</b> el principal obstáculo es el <b>cambio cultural</b> (abandonar la microgestión por respeto y confianza); subcontratistas que faltan a reuniones o dan fechas poco fiables; poca participación de diseñadores, que genera cuellos de botella en detalles. La mayor debilidad es el compromiso: si un componente falla, es probable que no se cumplan los objetivos; se reduce con menos restricciones, compromisos y trabajo transparente.</p>'},
+  {t:'PPC (Porcentaje de Plan Cumplido)', h:'<p>Mide el éxito y la mejora continua del LPS: <b>cociente entre tareas realmente ejecutadas y tareas programadas para una semana</b> (Brioso, 2017).</p><div class="callout"><b>PPC = (tareas completadas ÷ tareas programadas) × 100</b></div><p>Evalúa la fiabilidad del sistema. Cuando una tarea incumple se aplica un <b>análisis de fiabilidad (5 porqués)</b> para hallar la causa raíz, generar lecciones aprendidas y aplicar acciones correctivas. También puede vincularse a indicadores de seguridad (accidentes, uso de EPP, capacitaciones). Calcúlalo en la sección Herramientas.</p>'}
+ ],
+ reflexion:[
+  {q:'¿Por qué es importante identificar restricciones antes de programar una actividad en obra?', a:'Asegura que la tarea esté completamente preparada para ejecutarse sin interrupciones. Si se programa sin verificar diseño, materiales o espacio, es probable que se generen esperas, reprocesos y pérdida de productividad.'},
+  {q:'¿Cómo contribuye la planificación colaborativa a la confiabilidad del cronograma?', a:'Incorpora la experiencia de quienes ejecutan el trabajo. Al definir secuencias y compromisos juntos, los equipos generan fechas más realistas y detectan restricciones anticipadamente, mejorando la confiabilidad y reduciendo la variabilidad.'}],
+ caso:{
+  titulo:'Conjunto habitacional con múltiples subcontratistas',
+  contexto:['Varias torres ejecutadas simultáneamente por distintos subcontratistas en estructura, instalaciones y terminaciones.','Cuadrillas llegan al área y descubren que las tareas previas no se completaron o faltan materiales; se reorganiza el trabajo a diario.','La dirección decide implementar LPS y Pull Planning.'],
+  problema:'No son solo retrasos operativos: falta un sistema de planificación confiable que identifique restricciones antes de programar y coordine compromisos entre equipos.',
+  analisis:['<b>Programación basada en supuestos teóricos</b> (lógica push).','<b>Sin análisis sistemático de restricciones:</b> se programa sin verificar diseño, materiales, espacio o seguridad.','<b>Escasa coordinación entre subcontratistas:</b> cada especialidad planifica por separado; no hay red de compromisos.','<b>Sin indicadores de confiabilidad:</b> sin PPC es difícil identificar fallas del sistema.'],
+  solucion:['Implementar LPS: cronograma maestro, fases, Lookahead y planificación semanal con actividades liberadas.','Sesiones de Pull Planning: planificar en reversa desde hitos y negociar compromisos.','Análisis sistemático de restricciones técnicas, logísticas y de seguridad antes de programar.','Medir semanalmente el PPC y aplicar análisis de causa raíz ante incumplimientos.'],
+  resultados:['Mayor confiabilidad del cronograma','Menos tiempos improductivos por restricciones no detectadas','Mejor coordinación entre subcontratistas','Flujo de trabajo más estable','Aprendizajes para planificar mejor']},
+ practica:[
+  {type:'mcq', q:'Varias cuadrillas llegan al área pero no pueden iniciar por falta de materiales y detalles de diseño; ocurre repetidamente. ¿Qué estrategia es más adecuada desde el LPS?',
+   opts:['Incrementar la supervisión directa de las cuadrillas.','Incorporar un proceso de análisis de restricciones antes de programar las actividades.','Delegar la planificación semanal exclusivamente al jefe de obra.','Aumentar la cantidad de trabajadores para compensar los retrasos.'],
+   c:1, fb:'El LPS programa solo lo que está liberado de restricciones; más gente o más control no resuelve la causa.', inferred:true},
+  {type:'match', q:'Relaciona cada descripción con el elemento del LPS.',
+   pairs:[['Nivel de planificación que define hitos generales','Cronograma Maestro'],['Taller colaborativo donde se planifica en reversa','Pull Planning'],['Indicador que mide la confiabilidad del plan semanal','PPC'],['Horizonte de planificación de mediano plazo','Lookahead Planning']], inferred:true}],
+ cierre:['El LPS introduce una planificación progresiva que mejora la confiabilidad al reducir la variabilidad.','El Pull Planning organiza actividades desde los hitos hacia atrás: identifica dependencias y coordina compromisos.','El PPC evalúa la confiabilidad del sistema y genera aprendizajes de mejora continua.'],
+ quote:'Un proyecto no mejora su productividad acelerando el trabajo en terreno, sino diseñando sistemas de planificación confiables donde cada actividad se ejecute solo cuando las condiciones para producir valor están disponibles.',
+ refs:['Brioso, X. (2017). Synergies between Last Planner System and OHSAS 18001. BUILDING, 1(2).','Casini, M. (2022). Construction 4.0. Woodhead / Elsevier.','Eastman, C. M. (Ed.) (2011). BIM handbook (2ª ed.). Wiley.'],
+ comp:['Construction Institute (2020). Last Planner System – Pull Planning Workshop [Video].','Garcés, G. & Peña, C. (2023). Una revisión sobre Lean Construction para la gestión de proyectos. Rev. Ingeniería de Construcción, 38(1).','Figma (2023). Daily stand-up meetings: what they are and how they work.']
+},
+/* ---------------------------- 4.2 ---------------------------- */
+{
+ id:'4.2', unit:'Unidad 4', title:'BIM, IPD y entornos colaborativos',
+ sub:'Uso del Last Planner System, pull planning y tecnología aplicada (Parte 2/2)',
+ intro:'Cómo integrar modelos digitales, contratos colaborativos y entornos comunes de datos para prevenir errores antes de que lleguen al terreno.',
+ objetivos:[
+  'Analizar el rol del BIM como plataforma de integración de información.',
+  'Evaluar el modelo de Entrega Integrada de Proyectos (IPD) como sistema de colaboración organizacional.',
+  'Relacionar la integración BIM–IPD con los principios de Lean Construction y la planificación Pull.'],
+ escenario:[
+  'Consorcio constructor desarrolla un hospital público en América Latina: múltiples disciplinas, alta complejidad y presupuesto estrictamente controlado.',
+  'En las primeras etapas de diseño aparecen inconsistencias: interferencias entre ductos y estructuras, discrepancias en planos y retrasos en la entrega de información.',
+  'El equipo adopta una estrategia con BIM, contratos IPD y entornos colaborativos de datos.'],
+ teoria:[
+  {t:'Fragmentación y Construcción 4.0', h:'<p>La construcción ha sufrido un estancamiento prolongado en la productividad de su mano de obra frente a la manufactura (Eastman, 2011), por <b>fragmentación crónica</b>, planificación secuencial y aislada, y dependencia del papel. La respuesta es la "Construcción 4.0": BIM, IPD y entornos colaborativos (CDE y VDC) (Casini, 2022).</p>'},
+  {t:'BIM: motor tecnológico', h:'<ol><li>BIM no es un programa de dibujo 3D sino un <b>proceso colaborativo y una base de datos digital inteligente</b> de todo el proyecto (Casini, 2022).</li><li>Al sustentarse en objetos paramétricos, ante un cambio de diseño los planos, reportes e interfaces de datos se actualizan automáticamente, suprimiendo las inconsistencias del 2D.</li><li>Se explota en múltiples dimensiones: vincular componentes al cronograma (<b>4D</b>) y extraer cantidades para presupuestos dinámicos (<b>5D</b>).</li><li>Esto es el <b>Diseño y Construcción Virtual (VDC)</b>: "construir" en pantalla antes de ejecutar, previniendo errores y resolviendo conflictos de sistemas (<b>clash detection</b>) (Eastman, 2011).</li></ol>'},
+  {t:'DBB vs. IPD', h:'<p>En el formato tradicional <b>Diseño–Licitación–Construcción (DBB)</b> el contratista no participa en la etapa crítica de diseño: fomenta rediseños, sobrecostos y relaciones de confrontación, donde cada actor protege su propio riesgo.</p><p><b>IPD (Integrated Project Delivery):</b> sistema de ejecución con un <b>contrato único</b> que vincula al propietario, diseñadores y constructores clave desde el primer día; se comparten riesgos y beneficios (<i>painshare/gainshare</i>), por lo que el éxito económico de una firma depende del éxito general del proyecto (Eastman, 2011). El AIA señala que, aunque teóricamente se puede hacer IPD sin tecnología, BIM es esencial para su colaboración y agilidad.</p>'},
+  {t:'Caso de éxito: Sutter Medical Center (Castro Valley, California)', h:'<ol><li>11 empresas clave firmaron un Acuerdo Integrado (IFOA) para compartir un fondo de utilidades.</li><li>Con BIM compartido desde el inicio integraron la experiencia constructiva de los subcontratistas durante el diseño.</li><li>Con <b>Target Value Design</b> lograron diseñar ajustándose estrictamente al presupuesto.</li><li>Empezaron la obra <b>seis meses antes</b> que con un DBB tradicional, sin perder tiempo en disputas ni planos inconsistentes.</li></ol>'},
+  {t:'CDE y Big Room', h:'<p>El <b>Entorno Común de Datos (CDE)</b> es una plataforma centralizada (normalmente en la nube): la <b>"única fuente de la verdad"</b>, donde el equipo almacena y comparte documentación y modelos federados. Rompe silos, evita duplicaciones y reduce los RFIs causados por datos obsoletos.</p><p>En el plano físico, el IPD suele requerir co-ubicar a los especialistas en una <b>Big Room</b>, con pantallas táctiles y modelos 4D: decisiones concurrentes, cara a cara, en minutos en vez de semanas (Eastman, 2011).</p>'},
+  {t:'Sinergia con Lean Construction', h:'<ol><li>Se han detectado más de <b>50 áreas de sinergia</b> entre BIM y Lean.</li><li>La confiabilidad de los modelos permite el pull planning (LPS): el trabajo fluye hacia los obreros solo cuando espacio, diseño y materiales están 100% listos (Eastman, 2011).</li><li>Modelos 3D coordinados y validados permiten trasladar labores complejas a fábricas.</li><li>Prefabricación y construcción modular reducen riesgo in situ, tiempos de ciclo y desperdicios.</li></ol>'},
+  {t:'Antes vs. después', h:'<div class="tablewrap"><table><tr><th>Característica</th><th>Gestión tradicional</th><th>Construcción 4.0 / BIM + IPD</th></tr><tr><td>Tecnología y diseño</td><td>2D (CAD) y papel</td><td>BIM 3D/4D/5D y gemelos digitales</td></tr><tr><td>Flujo de información</td><td>Fragmentado, en silos, con pérdidas</td><td>CDE en la nube, única fuente de verdad en tiempo real</td></tr><tr><td>Modelo contractual</td><td>DBB: confrontación, traspaso de riesgos, litigios</td><td>IPD: riesgos y beneficios compartidos</td></tr><tr><td>Tiempos y costos</td><td>Estimaciones manuales; cronogramas estáticos (push)</td><td>Cantidades automáticas (5D) y planificación pull (LPS)</td></tr><tr><td>Ejecución</td><td>In situ, con variabilidad, esperas y desperdicios</td><td>Lean, prefabricación y entrega Just-in-Time</td></tr><tr><td>Espacio de trabajo</td><td>Oficinas separadas</td><td>Big Room: decisiones concurrentes cara a cara</td></tr></table></div><p class="note">Nota: el PDF original incluye una fila "Detección de errores" cuyo texto no corresponde al tema (parece un error de maquetación), por lo que se omitió aquí.</p>'}
+ ],
+ reflexion:[
+  {q:'¿Por qué la fragmentación de la información afecta la productividad en proyectos de construcción?', a:'Cuando la información está dispersa entre equipos y documentos, aumenta el riesgo de errores de coordinación: inconsistencias de diseño, retrabajos y demoras en obra. Integrarla en un modelo común mejora la comunicación y previene conflictos.'},
+  {q:'¿Qué ventajas estratégicas ofrece integrar BIM con modelos colaborativos como IPD?', a:'Alinea los intereses de diseñadores, constructores y propietarios desde el inicio. Facilita decisiones colaborativas, reduce conflictos contractuales y mejora la eficiencia mediante planificación integrada y gestión compartida de riesgos.'}],
+ caso:{
+  titulo:'Hospital regional en América Latina',
+  contexto:['Consorcio que debe coordinar arquitectos, ingenieros estructurales, especialistas en instalaciones y constructoras.','En diseño se detectan inconsistencias entre planos de distintas especialidades; al llegar a obra provocan interferencias, retrasos y sobrecostos.','Se decide implementar BIM, contratos IPD y entornos colaborativos de datos.'],
+  problema:'Fallas de coordinación por fragmentación de la información entre equipos: inconsistencias de diseño y decisiones tardías que afectan la productividad y confiabilidad.',
+  analisis:['<b>Fragmentación del flujo de información:</b> documentos independientes y aislados.','<b>Detección tardía de conflictos:</b> las interferencias se descubren en obra.','<b>Modelo contractual adversarial (DBB):</b> separa responsabilidades y fomenta transferir riesgos.','<b>Poca colaboración multidisciplinaria temprana.</b>'],
+  solucion:['Modelo BIM colaborativo integrado con detección automática de conflictos.','Contrato IPD con distribución compartida de riesgos y beneficios.','Entorno Común de Datos (CDE) como fuente única de información.','Espacios de integración (Big Room) para resolver conflictos antes de ejecutar.'],
+  resultados:['Menos conflictos de diseño detectados en obra','Mejor coordinación entre disciplinas','Menos retrabajos y sobrecostos','Más confiabilidad de planificación y ejecución','Mayor productividad global']},
+ practica:[
+  {type:'mcq', q:'Las interferencias entre especialidades se descubren recién en obra y obligan a retrabajos. ¿Qué estrategia permitiría prevenir este problema desde las primeras etapas?',
+   opts:['Aumentar las inspecciones en terreno durante la construcción.','Integrar modelos BIM para detectar conflictos de diseño antes de iniciar la obra.','Delegar la coordinación técnica exclusivamente al jefe de proyecto.','Incrementar el presupuesto para cubrir posibles retrabajos.'],
+   c:1, fb:'El clash detection en el modelo previene el problema en origen en vez de corregirlo en obra.', inferred:true},
+  {type:'match', q:'Relaciona cada descripción con el concepto.',
+   pairs:[['Plataforma centralizada de información','CDE'],['Espacio físico de trabajo colaborativo','Big Room'],['Modelo digital que integra información del proyecto','BIM'],['Contrato que alinea intereses entre actores','IPD']], inferred:true}],
+ cierre:['BIM integra la información en un entorno digital que facilita la coordinación y permite anticipar conflictos antes de la obra.','IPD redefine las relaciones contractuales: comparte riesgos y beneficios y favorece decisiones orientadas al éxito del proyecto.','BIM + IPD + CDE impulsan un cambio de paradigma que mejora la coordinación, reduce errores y fortalece Lean Construction.'],
+ quote:'La productividad no surge solo de trabajar más rápido, sino de integrar información, personas y decisiones desde el inicio del proyecto para prevenir errores antes de que lleguen al terreno.',
+ refs:['Brioso, X. (2017). Synergies between Last Planner System and OHSAS 18001. BUILDING, 1(2).','Casini, M. (2022). Construction 4.0. Woodhead / Elsevier.','Eastman, C. M. (Ed.) (2011). BIM handbook (2ª ed.). Wiley.'],
+ comp:['UNESCO (2023). La generación arquitecnológica. El Correo de la UNESCO.','Espacio BIM (2024). ¿Qué es BIM?','Ministerio de Economía y Finanzas del Perú (2021). Plan BIM Perú.']
+}
+];
+
+/* ---------- Tarjetas de estudio ---------- */
+const CARDS = [
+ ['Sectorización','Dividir el proyecto en áreas de trabajo con cargas equivalentes para equilibrar el flujo productivo (una unidad ≈ una jornada).','2.1'],
+ ['Tren de actividades','Secuencia continua y equilibrada de tareas/cuadrillas que se desplazan de un sector a otro.','2.1'],
+ ['Takt-time','Ritmo de producción que sincroniza la ejecución con la demanda. Tiempo disponible ÷ demanda del cliente.','2.1'],
+ ['Variabilidad','Cambios o imprevistos (clima, rendimientos, recursos) que alteran el flujo; responde a la incertidumbre de la obra.','2.1'],
+ ['Restricción','Condición que impide ejecutar una actividad hasta ser resuelta (material, información, equipo, frente). Puede tratarse anticipadamente.','2.1'],
+ ['Buffer','Holgura operativa o tarea suplente que absorbe la variabilidad y evita detener la producción.','2.1'],
+ ['Trabajo productivo (TP)','Actividad que genera avance físico directo (montaje de acero, encofrado).','2.1'],
+ ['Trabajo contributorio (TC)','Actividad de apoyo necesaria para el TP, sin avance directo (traslados, preparar herramientas).','2.1'],
+ ['Trabajo no contributorio (TNC)','Esperas, reprocesos, tiempos muertos: no aportan valor.','2.1'],
+ ['Carta balance','Herramienta para sincronizar tiempos de ciclo de cuadrillas y detectar desbalances y cuellos de botella.','2.1'],
+ ['WIP','Trabajo en proceso: demasiado WIP satura frentes e interfiere.','2.1'],
+ ['VSM','Value Stream Mapping: mapa visual del flujo de materiales e información para detectar Muda; estado actual → estado futuro.','2.2'],
+ ['Muda','Término japonés para desperdicio: actividad que consume recursos sin agregar valor.','2.2'],
+ ['Kaizen','Mejora continua con pequeños cambios constantes, con participación de quienes ejecutan; ciclo PDCA.','2.2'],
+ ['PDCA','Planificar – Hacer – Verificar – Actuar.','2.2'],
+ ['Gemba','El lugar real donde ocurre el trabajo. Con Gembutsu (objeto real) y Genjitsu (hechos reales) forma el Sangenshugi.','2.2'],
+ ['Poka-Yoke','Mecanismo a prueba de errores que previene fallas humanas antes de que se vuelvan defectos.','2.2'],
+ ['Lead time','Tiempo total de entrega de un proceso; el VSM busca reducirlo sincronizando producción y demanda.','2.2'],
+ ['Construcción 4.0','Cambio sistémico que fusiona lo físico y lo digital en todo el ciclo de vida del proyecto.','3.1'],
+ ['Gemelo digital','Réplica virtual dinámica de la estructura física, actualizada por sensores IoT.','3.1'],
+ ['TPS','Sistema de Producción Toyota (Ohno y Toyoda): producir solo lo necesario, cuando y en la cantidad necesaria.','3.1'],
+ ['Just in Time','Cada etapa produce solo lo que requiere la siguiente. Usa kanban.','3.1'],
+ ['Jidoka','Automatización con control humano: detener el proceso al detectar un defecto. Origen: Sakichi Toyoda.','3.1'],
+ ['Octavo desperdicio','Desaprovechamiento del talento humano.','3.1'],
+ ['Seiri','1ª S – Clasificar: eliminar lo innecesario.','3.2'],
+ ['Seiton','2ª S – Ordenar: cada cosa en su lugar para uso rápido.','3.2'],
+ ['Seiso','3ª S – Limpiar: mantener pulcritud; mejora la seguridad.','3.2'],
+ ['Seiketsu','4ª S – Estandarizar: mantener el orden logrado y los deberes de cuidado.','3.2'],
+ ['Shitsuke','5ª S – Disciplina y autodisciplina: cumplir normas, eliminar malas costumbres, capacitarse.','3.2'],
+ ['Sobreproducción','Fabricar o ejecutar más de lo requerido o antes de tiempo.','3.2'],
+ ['Last Planner System','Metodología de Glenn Ballard para control de producción: planifica con más detalle a medida que se acerca la ejecución.','4.1'],
+ ['Lookahead','Planificación de mediano plazo que identifica y libera restricciones.','4.1'],
+ ['Pull Planning','Planificación colaborativa en reversa desde un hito, programando en el "último momento responsable".','4.1'],
+ ['Push vs. Pull','Push: se impone trabajo según cronograma teórico. Pull: la demanda del cliente interno tira del trabajo.','4.1'],
+ ['PPC','Porcentaje de Plan Cumplido = tareas ejecutadas ÷ tareas programadas (semana).','4.1'],
+ ['5 porqués','Técnica de causa raíz usada cuando una tarea incumple.','4.1'],
+ ['BIM 4D / 5D','4D: vincula el modelo al tiempo/cronograma. 5D: extrae cantidades y costos.','4.2'],
+ ['VDC','Diseño y Construcción Virtual: construir en pantalla antes de ejecutar; incluye clash detection.','4.2'],
+ ['IPD','Entrega Integrada de Proyectos: contrato único; riesgos y beneficios compartidos.','4.2'],
+ ['DBB','Diseño–Licitación–Construcción: modelo tradicional que separa a las partes y fomenta la confrontación.','4.2'],
+ ['CDE','Entorno Común de Datos: "única fuente de la verdad" en la nube.','4.2'],
+ ['Big Room','Sala de co-ubicación del equipo para decisiones concurrentes cara a cara.','4.2'],
+ ['Target Value Design','Diseñar ajustándose estrictamente a un presupuesto objetivo (Sutter Medical Center).','4.2']
+];
+
+/* ---------- Banco del simulacro (preguntas elaboradas para estudiar) ---------- */
+const BANK = [
+ // Fundamentos de Lean Construction (5 pts)
+ {k:'fund',q:'Según el TPS, ¿qué significa producir "Just in Time"?',o:['Producir grandes lotes anticipadamente','Producir solo lo requerido por la etapa siguiente, en el momento y cantidad necesarios','Contratar más personal en picos de trabajo','Almacenar material extra por seguridad'],c:1,e:'JIT sincroniza procesos para reducir inventarios, esperas y sobreproducción.'},
+ {k:'fund',q:'¿Cuál de las siguientes es un desperdicio (Muda) en obra?',o:['Pull planning','Cuadrilla esperando que se libere el contrapiso','Reunión semanal de coordinación','Carta balance'],c:1,e:'Las esperas son uno de los siete desperdicios.'},
+ {k:'fund',q:'Jidoka consiste en…',o:['Mejorar la velocidad de las máquinas','Detener el proceso al detectar un problema para evitar que el defecto se propague','Planificar en reversa desde un hito','Ordenar el área de trabajo'],c:1,e:'Es automatización con control humano; calidad desde el origen.'},
+ {k:'fund',q:'Seiketsu, la cuarta S, consiste en…',o:['Clasificar lo necesario','Estandarizar y mantener el orden logrado','Limpiar el espacio','Disciplina y autodisciplina'],c:1,e:'Clasificar=Seiri, Ordenar=Seiton, Limpiar=Seiso, Estandarizar=Seiketsu, Disciplinar=Shitsuke.'},
+ {k:'fund',q:'El octavo desperdicio, agregado en la práctica actual, es…',o:['Exceso de burocracia','Desaprovechamiento del talento humano','Exceso de supervisión','Falta de capital'],c:1,e:'Se produce cuando no se aprovechan conocimientos e iniciativa del personal.'},
+ {k:'fund',q:'¿Qué diferencia a la construcción de una fábrica según el curso?',o:['Usa más tecnología','Sus proyectos son únicos, temporales y altamente variables','No puede aplicar mejora continua','No tiene desperdicios'],c:1,e:'Por eso los principios del TPS se adaptan, no se copian.'},
+ {k:'fund',q:'Kaizen se caracteriza por…',o:['Grandes reingenierías ocasionales','Pequeños cambios constantes con participación de los trabajadores','Reemplazar al personal por robots','Auditorías externas anuales'],c:1,e:'Mejora continua participativa, estructurada con PDCA.'},
+ // Restricciones, flujo y generación de valor (5 pts)
+ {k:'toc',q:'La variabilidad se diferencia de la restricción en que…',o:['La restricción es siempre climática','La variabilidad es incertidumbre propia de la obra; la restricción puede identificarse y tratarse anticipadamente','Son sinónimos','La variabilidad impide ejecutar una tarea hasta resolverse'],c:1,e:'Ambas afectan el flujo, pero la restricción se anticipa y se libera.'},
+ {k:'toc',q:'¿Para qué sirven los buffers?',o:['Para retrasar el cronograma','Para absorber la variabilidad y mantener la continuidad del flujo','Para reducir la cantidad de sectores','Para eliminar la planificación'],c:1,e:'Son holguras o tareas suplentes, no tiempo muerto.'},
+ {k:'toc',q:'Un cuello de botella es…',o:['El sector con más capacidad ociosa','El elemento que limita el avance global del sistema','Una reunión diaria','Un tipo de inventario'],c:1,e:'El flujo total no puede ir más rápido que su elemento más lento.'},
+ {k:'toc',q:'Si la cuadrilla de encofrado termina siempre antes que la de acero, lo más probable es…',o:['Que el sistema esté balanceado','Un desbalance de línea que genera tiempos muertos y acumulación','Que sobran sectores','Que el takt-time sea perfecto'],c:1,e:'Es un caso típico para carta balance y redistribución de recursos.'},
+ {k:'toc',q:'Un takt-time se calcula como…',o:['Demanda ÷ tiempo disponible','Tiempo disponible ÷ demanda del cliente','Tiempo de ciclo × cuadrillas','Número de sectores × días'],c:1,e:'Marca el ritmo para evitar sobreproducción y cuellos de botella.'},
+ {k:'toc',q:'Un exceso de inventario en obra se interpreta desde Lean como…',o:['Una buena práctica de seguridad','Un desperdicio que oculta problemas de planificación y flujo','Responsabilidad exclusiva de logística','Un indicador de eficiencia'],c:1,e:'No es solución de contingencia; es una señal de problemas no resueltos.'},
+ {k:'toc',q:'¿Cuál es el valor que persigue el VSM?',o:['Medir el rendimiento individual','Distinguir lo que agrega valor de lo que no y reducir el lead time','Reemplazar la supervisión','Aumentar el número de actividades por jornada'],c:1,e:'Visualiza el flujo completo para rediseñarlo.'},
+ // Análisis y resolución de situaciones (6 pts)
+ {k:'caso',q:'Las cuadrillas llegan al área y no pueden empezar por falta de diseño y materiales, repetidamente. ¿Qué haces primero?',o:['Contratar más personal','Implantar análisis de restricciones antes de programar (Lookahead / LPS)','Aumentar la supervisión','Acelerar el cronograma'],c:1,e:'LPS programa solo lo liberado de restricciones.'},
+ {k:'caso',q:'Tras observar en terreno detectas que el retraso se debe a falta de coordinación entre cuadrillas, no a lo que decía el informe de oficina. ¿Qué principio aplicaste?',o:['Poka-Yoke','Gemba / Sangenshugi','Jidoka','Takt-time'],c:1,e:'Ir al lugar, observar el objeto real y basarse en hechos reales.'},
+ {k:'caso',q:'Ocurren errores recurrentes de montaje de piezas. ¿Qué medida preventiva es más coherente?',o:['Más inspectores al final','Guías o moldes que solo permiten ensamblar en la posición correcta (Poka-Yoke)','Más horas extra','Un cronograma más detallado'],c:1,e:'Previene el error humano en origen.'},
+ {k:'caso',q:'Interferencias entre ductos y estructuras se descubren en obra y obligan a demoler. ¿Qué estrategia las habría prevenido?',o:['Más inspecciones en terreno','Coordinación BIM con detección de conflictos antes de construir','Más presupuesto para retrabajos','Delegar al jefe de proyecto'],c:1,e:'Clash detection en VDC.'},
+ {k:'caso',q:'El PPC semanal es 55%. Lo más adecuado es…',o:['Ignorarlo','Aplicar análisis de causa raíz (5 porqués) a las tareas incumplidas y actuar sobre las causas','Despedir a la cuadrilla','Prolongar el cronograma maestro'],c:1,e:'El PPC mide fiabilidad; sirve para aprender y corregir el sistema.'},
+ {k:'caso',q:'Los tabiques se prefabricaron antes de terminar la instalación eléctrica y luego hubo que ajustarlos. ¿Qué desperdicio es?',o:['Transporte','Sobreproducción','Espera','Movimiento'],c:1,e:'Producir antes de que el proceso siguiente lo necesite.'},
+ {k:'caso',q:'Los operarios pierden tiempo buscando herramientas. ¿Qué herramienta ataca primero el problema?',o:['5S (clasificar, ordenar, señalizar)','Pull planning','IPD','Impresión 3D'],c:0,e:'Reduce tiempos de búsqueda y movimientos innecesarios.'},
+ {k:'caso',q:'Más maquinaria no mejoró la productividad vial porque el flujo estaba fragmentado. ¿Por qué?',o:['La tecnología acelera una etapa, pero si las demás no están balanceadas aparecen cuellos de botella','La maquinaria nunca ayuda','Las máquinas son más lentas','No existía demanda'],c:0,e:'Sin VSM la tecnología puede automatizar la ineficiencia.'},
+ // Sustento técnico (4 pts)
+ {k:'sust',q:'El LPS parte de la premisa de que…',o:['Los pronósticos a largo plazo suelen estar errados, por eso se planifica con más detalle al acercarse la ejecución','El cronograma maestro debe detallarse al máximo al inicio','Solo el gerente planifica','Las restricciones no existen'],c:0,e:'Brioso (2017).'},
+ {k:'sust',q:'En IPD, ¿cómo se relacionan riesgo y beneficio?',o:['Se transfieren al contratista','Se comparten (painshare/gainshare): el éxito de cada firma depende del éxito del proyecto','Los asume solo el propietario','No se definen'],c:1,e:'Eastman (2011).'},
+ {k:'sust',q:'¿Qué es el CDE?',o:['Un tipo de contrato','Plataforma centralizada que actúa como única fuente de la verdad del proyecto','Una cuadrilla especializada','Un indicador de productividad'],c:1,e:'Reduce RFIs por información obsoleta.'},
+ {k:'sust',q:'En el Phase Pull Planning, la "red de compromisos" implica que…',o:['Las fechas son orientativas','Los acuerdos se vuelven compromisos que solo se modifican por acuerdo de todo el equipo','Solo el subcontratista se compromete','Se eliminan los buffers'],c:1,e:'Brioso (2017).'},
+ {k:'sust',q:'El muestreo de trabajo tradicional presenta como principal limitación…',o:['Costo inicial muy alto','Subjetividad del observador y alto consumo de tiempo de supervisión','Necesita cámaras','No sirve para clasificar actividades'],c:1,e:'Frente a la visión por computadora, que es continua y objetiva pero requiere inversión.'},
+ {k:'sust',q:'Según la lectura de 3.1, ¿cuál es un beneficio de la prefabricación?',o:['Más residuos','Plazos más veloces, calidad constante y hasta 90% menos de residuos','Mayor trabajo in situ','Menos control de calidad'],c:1,e:'Casini (2022).'}
+];
+const KIND = {fund:'Fundamentos de Lean Construction',toc:'Restricciones, flujo y generación de valor',caso:'Análisis y resolución de situaciones',sust:'Sustento técnico'};
+const RUBRIC = {
+ 'Evaluación N.° 1: Análisis crítico del libro "La Meta"':[['Comprensión de los conceptos fundamentales',6],['Identificación de restricciones y su impacto en el sistema',5],['Capacidad de análisis crítico y reflexión',5],['Claridad y sustento de las conclusiones',4]],
+ 'Evaluación N.° 2: Ensayo de aplicación de Lean Construction a una obra':[['Comprensión de los principios Lean Construction',5],['Identificación de oportunidades de mejora en la obra seleccionada',5],['Aplicación práctica de conceptos Lean al caso analizado',6],['Calidad de la argumentación técnica y conclusiones',4]],
+ 'Evaluación N.° 3: Examen final':[['Comprensión de los fundamentos de Lean Construction',5],['Comprensión de la Teoría de Restricciones y generación de valor',5],['Capacidad de análisis y resolución de situaciones aplicadas',6],['Sustento técnico de las respuestas',4]]
+};
+
+/* ============================================================
+   UTILIDADES Y ESTADO
+   ============================================================ */
+const $ = (s,r=document)=>r.querySelector(s);
+const el = (h)=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstChild};
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle = a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const SECS = [['obj','Objetivos'],['teo','Teoría'],['ref','Reflexión'],['cas','Caso aplicado'],['pra','Práctica'],['cie','Cierre']];
+
+let state = {done:{}, quiz:{}, ppc:[], grades:{n1:'',n2:'',n3:''}, exams:[]};
+try{ const s = JSON.parse(localStorage.getItem('mpc_state')||'null'); if(s) state = Object.assign(state,s); }catch(e){}
+function save(){ try{ localStorage.setItem('mpc_state',JSON.stringify(state)); }catch(e){} }
+function topicProgress(t){ const d=state.done[t.id]||{}; return SECS.filter(([k])=>d[k]).length/SECS.length; }
+
+/* tema claro/oscuro */
+(function(){
+  try{ const t=localStorage.getItem('mpc_theme'); if(t) document.documentElement.dataset.theme=t; }catch(e){}
+  $('#theme').onclick=()=>{
+    const cur=document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+    const n=cur==='dark'?'light':'dark'; document.documentElement.dataset.theme=n;
+    try{localStorage.setItem('mpc_theme',n)}catch(e){}
+  };
+})();
+
+/* ============================================================
+   ROUTER
+   ============================================================ */
+const NAV = [['home','Inicio'],['temas','Temas'],['tarjetas','Tarjetas'],['simulacro','Simulacro'],['herramientas','Herramientas'],['rubrica','Rúbrica']];
+function renderNav(route){
+  const n=$('#nav'); n.innerHTML='';
+  NAV.forEach(([k,l])=>{
+    const b=el(`<button class="${route===k||(route==='tema'&&k==='temas')?'on':''}">${l}</button>`);
+    b.onclick=()=>{location.hash='#/'+k}; n.appendChild(b);
+  });
+}
+function route(){
+  const h=(location.hash||'#/home').replace(/^#\//,'').split('/');
+  const r=h[0]||'home';
+  renderNav(r);
+  const app=$('#app'); app.innerHTML='';
+  window.scrollTo(0,0);
+  if(r==='home') viewHome(app);
+  else if(r==='temas') viewTemas(app);
+  else if(r==='tema') viewTema(app,h[1]);
+  else if(r==='tarjetas') viewCards(app);
+  else if(r==='simulacro') viewExam(app);
+  else if(r==='herramientas') viewTools(app);
+  else if(r==='rubrica') viewRubric(app);
+  else viewHome(app);
+}
+addEventListener('hashchange',route);
+
+/* ============================================================
+   VISTAS
+   ============================================================ */
+function topicCard(t){
+  const p=Math.round(topicProgress(t)*100);
+  const c=el(`<div class="card topic-card"><span class="tag">${t.id}</span> <span class="pill">${t.unit}</span>
+    <h3 style="margin-top:8px">${esc(t.title)}</h3><p class="muted small">${esc(t.intro)}</p>
+    <div class="bar"><i style="width:${p}%"></i></div><div class="small muted" style="margin-top:4px">${p}% completado</div></div>`);
+  c.onclick=()=>{location.hash='#/tema/'+t.id};
+  return c;
+}
+function viewHome(app){
+  const total=TOPICS.reduce((a,t)=>a+topicProgress(t),0)/TOPICS.length;
+  app.appendChild(el(`<div class="hero"><h1>Aprende, practica y evalúate</h1>
+    <p>Guía interactiva del curso <b>Mejora de la productividad en la construcción</b>. Seis temas con teoría, preguntas de reflexión, casos aplicados y prácticas; tarjetas de repaso, simulacro del examen final con la rúbrica y calculadoras de PPC, takt-time y nivel de actividad.</p>
+    <p class="small">Progreso global: <b>${Math.round(total*100)}%</b></p></div>`));
+  const g=el('<div class="grid"></div>'); TOPICS.forEach(t=>g.appendChild(topicCard(t))); app.appendChild(g);
+  const best=state.exams.length?Math.max(...state.exams.map(e=>e.nota)):null;
+  app.appendChild(el(`<div class="card" style="margin-top:16px"><h3>Cómo se evalúa el curso</h3>
+    <p>Tres evaluaciones de 0 a 20 puntos (La Meta, ensayo Lean y examen final). <b>Nota final = (N1 + N2 + N3) / 3</b>.</p>
+    <p class="muted small">${best!==null?`Tu mejor simulacro: <b>${best}/20</b>. `:''}Practica con el <a href="#/simulacro">simulacro</a> o revisa la <a href="#/rubrica">rúbrica</a>.</p></div>`));
+  app.appendChild(el(`<div class="card"><h3>Sobre el contenido</h3><p class="small muted">Las prácticas de varios PDF no traen la clave de respuestas; en esos casos la respuesta correcta se dedujo del contenido y se marca con "clave deducida". El libro <i>La Meta</i> (Evaluación 1) no está en los PDF cargados, por lo que esta guía no lo desarrolla.</p></div>`));
+}
+function viewTemas(app){
+  app.appendChild(el('<h1>Temas del curso</h1>'));
+  [['Unidad 2','Herramientas de productividad y mejora continua'],['Unidad 3','Producción en serie vs. construcción'],['Unidad 4','Last Planner System, Pull Planning y tecnología']].forEach(([u,n])=>{
+    app.appendChild(el(`<h3 style="margin-top:18px">${u} · ${n}</h3>`));
+    const g=el('<div class="grid"></div>'); TOPICS.filter(t=>t.unit===u).forEach(t=>g.appendChild(topicCard(t))); app.appendChild(g);
+  });
+}
+
+function doneBtn(tid,key){
+  const d=(state.done[tid]=state.done[tid]||{});
+  const b=el(`<button class="btn ghost"></button>`);
+  const upd=()=>{b.textContent=d[key]?'✓ Completado (clic para desmarcar)':'Marcar sección como completada'; b.classList.toggle('alt',!!d[key])};
+  b.onclick=()=>{d[key]=!d[key];save();upd();const p=$('#pbar');if(p){const t=TOPICS.find(x=>x.id===tid);p.style.width=Math.round(topicProgress(t)*100)+'%'}};
+  upd(); return b;
+}
+function reveal(q,a){
+  return el(`<details><summary>${esc(q)}</summary><div class="body"><p>${esc(a)}</p></div></details>`);
+}
+function ol(items,cls){ return `<ol class="${cls||''}">${items.map(i=>`<li>${i}</li>`).join('')}</ol>`; }
+
+function viewTema(app,id){
+  const t=TOPICS.find(x=>x.id===id); if(!t){viewTemas(app);return}
+  const idx=TOPICS.indexOf(t);
+  app.appendChild(el(`<div><a href="#/temas">← Todos los temas</a></div>`));
+  app.appendChild(el(`<div class="hero" style="margin-top:10px"><span class="tag">Tema ${t.id}</span><h1 style="margin-top:8px">${esc(t.title)}</h1><p>${esc(t.sub)}</p>
+    <div class="bar" style="background:#333"><i id="pbar" style="width:${Math.round(topicProgress(t)*100)}%"></i></div></div>`));
+  app.appendChild(el(`<div class="topic-nav">${SECS.map(([k,l])=>`<a href="#" data-go="sec-${k}">${l}</a>`).join('')}</div>`));
+  $('.topic-nav',app).onclick=e=>{const a=e.target.closest('a');if(!a)return;e.preventDefault();$('#'+a.dataset.go).scrollIntoView({behavior:'smooth'})};
+
+  const sec=(k,title,build)=>{const s=el(`<section class="sec" id="sec-${k}"><h2>${title}</h2></section>`);build(s);s.appendChild(doneBtn(t.id,k));app.appendChild(s)};
+
+  sec('obj','Objetivos y escenario',s=>{
+    s.appendChild(el(`<div class="card"><h3>Al finalizar serás capaz de…</h3>${ol(t.objetivos)}</div>`));
+    s.appendChild(el(`<div class="card"><h3>Situación de partida</h3>${ol(t.escenario,'steps')}</div>`));
+  });
+  sec('teo','Teoría',s=>{
+    t.teoria.forEach((x,i)=>{const d=el(`<details ${i===0?'open':''}><summary>${esc(x.t)}</summary><div class="body">${x.h}</div></details>`);s.appendChild(d)});
+    s.appendChild(el(`<div class="quote">${esc(t.quote)}</div>`));
+  });
+  sec('ref','Preguntas de reflexión',s=>{
+    s.appendChild(el('<p class="muted">Piensa tu respuesta y luego despliega la pregunta.</p>'));
+    t.reflexion.forEach(r=>s.appendChild(reveal(r.q,r.a)));
+  });
+  sec('cas','Caso aplicado: '+t.caso.titulo,s=>{
+    const c=t.caso;
+    s.appendChild(el(`<div class="card"><h3>Contexto</h3>${ol(c.contexto,'steps')}</div>`));
+    s.appendChild(el(`<details><summary>¿Cuál es el problema?</summary><div class="body"><p>${c.problema}</p></div></details>`));
+    s.appendChild(el(`<details><summary>Análisis paso a paso</summary><div class="body">${ol(c.analisis)}</div></details>`));
+    s.appendChild(el(`<details><summary>Solución estratégica</summary><div class="body">${ol(c.solucion)}</div></details>`));
+    s.appendChild(el(`<details><summary>Resultados esperados</summary><div class="body"><ul>${c.resultados.map(r=>`<li>${r}</li>`).join('')}</ul></div></details>`));
+  });
+  sec('pra','Pon a prueba tu conocimiento',s=>{
+    const key=t.id; const q=(state.quiz[key]=state.quiz[key]||{});
+    t.practica.forEach((p,i)=>s.appendChild(p.type==='mcq'?mcq(p,key,i,q):matchQ(p,key,i,q)));
+    const sc=el('<p class="small muted" id="qscore"></p>'); s.appendChild(sc); updScore(t);
+  });
+  sec('cie','Cierre',s=>{
+    s.appendChild(el(`<div class="card"><h3>Ideas más relevantes</h3>${ol(t.cierre)}</div>`));
+    s.appendChild(el(`<details><summary>Referencias</summary><div class="body"><ul>${t.refs.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div></details>`));
+    s.appendChild(el(`<details><summary>Material complementario</summary><div class="body"><ul>${t.comp.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div></details>`));
+  });
+  const nav=el('<div class="row" style="justify-content:space-between"></div>');
+  if(TOPICS[idx-1]){const b=el(`<button class="btn ghost">← ${TOPICS[idx-1].id}</button>`);b.onclick=()=>location.hash='#/tema/'+TOPICS[idx-1].id;nav.appendChild(b)}else nav.appendChild(el('<span></span>'));
+  if(TOPICS[idx+1]){const b=el(`<button class="btn">${TOPICS[idx+1].id} →</button>`);b.onclick=()=>location.hash='#/tema/'+TOPICS[idx+1].id;nav.appendChild(b)}
+  app.appendChild(nav);
+}
+function updScore(t){
+  const q=state.quiz[t.id]||{}; const n=t.practica.length; const ans=Object.keys(q).length;
+  const ok=Object.values(q).filter(v=>v===true).length;
+  const e=$('#qscore'); if(e) e.textContent=`Respondidas: ${ans}/${n} · Correctas: ${ok}`;
+}
+function mcq(p,key,i,q){
+  const box=el(`<div class="card"><p><b>${i+1}.</b> ${esc(p.q)}</p><div class="opts"></div><div class="fbwrap"></div>${p.inferred?'<div class="note">Clave deducida del contenido (el PDF no la muestra).</div>':''}</div>`);
+  const opts=$('.opts',box);
+  p.opts.forEach((o,j)=>{
+    const b=el(`<button class="opt">${esc(o)}</button>`);
+    b.onclick=()=>{
+      if(q[i]!==undefined)return;
+      q[i]=(j===p.c); save();
+      [...opts.children].forEach((x,k)=>{x.disabled=true; if(k===p.c)x.classList.add('ok'); else if(k===j)x.classList.add('bad')});
+      $('.fbwrap',box).innerHTML=`<div class="fb">${q[i]?'✔ Correcto. ':'✘ No es esa. '}${esc(p.fb)}</div>`;
+      updScore(TOPICS.find(t=>t.id===key));
+    };
+    opts.appendChild(b);
+  });
+  return box;
+}
+function matchQ(p,key,i,q){
+  const rights=shuffle(p.pairs.map(x=>x[1]));
+  const box=el(`<div class="card"><p><b>${i+1}.</b> ${esc(p.q)}</p><div class="rows"></div><div class="row"><button class="btn">Verificar</button></div><div class="fbwrap"></div>${p.inferred?'<div class="note">Emparejamiento deducido del contenido (el PDF no muestra la clave).</div>':''}</div>`);
+  const rows=$('.rows',box);
+  p.pairs.forEach(([l,r])=>{
+    rows.appendChild(el(`<div class="match-row"><div>${esc(l)}</div><select><option value="">— elige —</option>${rights.map(x=>`<option>${esc(x)}</option>`).join('')}</select></div>`));
+  });
+  $('button',box).onclick=()=>{
+    let ok=0; [...rows.children].forEach((r,k)=>{
+      const s=$('select',r); const good=s.value===p.pairs[k][1];
+      if(good)ok++; r.style.outline='2px solid '+(good?'var(--ok)':'var(--bad)'); r.style.borderRadius='6px';
+    });
+    q[i]=(ok===p.pairs.length); save();
+    $('.fbwrap',box).innerHTML=`<div class="fb">${ok}/${p.pairs.length} correctas.${ok<p.pairs.length?' Corrige las marcadas en rojo y vuelve a verificar.':' ¡Muy bien!'}</div>`;
+    updScore(TOPICS.find(t=>t.id===key));
+  };
+  return box;
+}
+
+/* ---------- Tarjetas ---------- */
+function viewCards(app){
+  app.appendChild(el('<h1>Tarjetas de repaso</h1>'));
+  const bar=el(`<div class="row"><label>Tema: <select id="cf"><option value="">Todos</option>${TOPICS.map(t=>`<option>${t.id}</option>`).join('')}</select></label><button class="btn ghost" id="sh">Mezclar</button></div>`);
+  app.appendChild(bar);
+  const wrap=el('<div></div>'); app.appendChild(wrap);
+  let deck=[],pos=0;
+  const build=()=>{const f=$('#cf').value;deck=CARDS.filter(c=>!f||c[2]===f);pos=0;draw()};
+  const draw=()=>{
+    wrap.innerHTML='';
+    if(!deck.length){wrap.textContent='Sin tarjetas.';return}
+    const c=deck[pos];
+    const f=el(`<div class="flash"><div class="flash-in"><div class="face"><div><span class="pill">${c[2]}</span><h2 style="margin-top:8px">${esc(c[0])}</h2><p class="muted small">Toca para ver la definición</p></div></div><div class="face back">${esc(c[1])}</div></div></div>`);
+    f.onclick=()=>f.classList.toggle('flip');
+    wrap.appendChild(f);
+    const nv=el(`<div class="row" style="justify-content:center"><button class="btn ghost" id="pv">←</button><span class="muted">${pos+1} / ${deck.length}</span><button class="btn" id="nx">→</button></div>`);
+    wrap.appendChild(nv);
+    $('#pv',nv).onclick=()=>{pos=(pos-1+deck.length)%deck.length;draw()};
+    $('#nx',nv).onclick=()=>{pos=(pos+1)%deck.length;draw()};
+  };
+  $('#cf').onchange=build; $('#sh').onclick=()=>{build();deck=shuffle(deck);draw()};
+  build();
+}
+
+/* ---------- Simulacro ---------- */
+function viewExam(app){
+  app.appendChild(el('<h1>Simulacro de examen final</h1>'));
+  app.appendChild(el(`<div class="card"><p>20 preguntas de opción múltiple (equivale a 1 punto cada una) repartidas según los criterios de la Evaluación N.° 3. Son preguntas de práctica elaboradas a partir del material del curso, no el examen oficial.</p>
+  <div class="tablewrap"><table><tr><th>Criterio de la rúbrica</th><th>Puntos</th></tr><tr><td>Fundamentos de Lean Construction</td><td>5</td></tr><tr><td>Teoría de Restricciones y generación de valor*</td><td>5</td></tr><tr><td>Análisis y resolución de situaciones aplicadas</td><td>6</td></tr><tr><td>Sustento técnico de las respuestas</td><td>4</td></tr></table></div>
+  <p class="note">*Los PDF cargados tratan restricciones, cuellos de botella y flujo de valor, pero no desarrollan la Teoría de Restricciones de Goldratt; estas preguntas cubren solo lo que aparece en ellos.</p></div>`));
+  const area=el('<div></div>'); app.appendChild(area);
+  const start=el('<button class="btn alt">Comenzar simulacro</button>'); area.appendChild(start);
+  if(state.exams.length){
+    area.appendChild(el(`<div class="card" style="margin-top:14px"><h3>Historial</h3><p class="small">${state.exams.slice(-6).reverse().map(e=>`${e.fecha}: <b>${e.nota}/20</b>`).join(' · ')}</p></div>`));
+  }
+  start.onclick=()=>runExam(area);
+}
+function runExam(area){
+  const want={fund:5,toc:5,caso:6,sust:4};
+  let qs=[]; Object.entries(want).forEach(([k,n])=>{qs=qs.concat(shuffle(BANK.filter(b=>b.k===k)).slice(0,n))});
+  qs=shuffle(qs).map(q=>{const idx=shuffle(q.o.map((_,i)=>i));return {...q,o:idx.map(i=>q.o[i]),c:idx.indexOf(q.c)}});
+  area.innerHTML=''; const ans={};
+  qs.forEach((q,i)=>{
+    const b=el(`<div class="card"><p><span class="pill">${KIND[q.k]}</span></p><p><b>${i+1}.</b> ${esc(q.q)}</p><div class="opts"></div></div>`);
+    q.o.forEach((o,j)=>{
+      const x=el(`<button class="opt">${esc(o)}</button>`);
+      x.onclick=()=>{ans[i]=j;[...$('.opts',b).children].forEach((y,k)=>{y.style.borderColor=k===j?'var(--brand)':'';y.style.background=k===j?'var(--soft)':''})};
+      $('.opts',b).appendChild(x);
+    }); area.appendChild(b);
+  });
+  const fin=el('<button class="btn alt">Entregar y calificar</button>'); area.appendChild(fin);
+  fin.onclick=()=>{
+    if(Object.keys(ans).length<qs.length && !confirm('Hay preguntas sin responder. ¿Entregar de todos modos?'))return;
+    let nota=0; const por={};
+    area.innerHTML='';
+    qs.forEach((q,i)=>{
+      const ok=ans[i]===q.c; if(ok){nota++; por[q.k]=(por[q.k]||0)+1}
+      area.appendChild(el(`<div class="card"><p><span class="pill">${KIND[q.k]}</span> ${ok?'✔':'✘'}</p><p><b>${i+1}.</b> ${esc(q.q)}</p>
+        <p class="small">Tu respuesta: ${ans[i]!==undefined?esc(q.o[ans[i]]):'<i>sin responder</i>'}<br>Correcta: <b>${esc(q.o[q.c])}</b></p><div class="fb">${esc(q.e)}</div></div>`));
+    });
+    state.exams.push({nota,fecha:new Date().toLocaleDateString('es-PE')});save();
+    const rs=el(`<div class="card"><h2>Resultado: <span class="big">${nota}</span>/20</h2>
+      <ul>${Object.keys(want).map(k=>`<li>${KIND[k]}: ${por[k]||0}/${want[k]}</li>`).join('')}</ul>
+      <p class="muted small">${nota>=18?'Excelente dominio.':nota>=14?'Buen nivel; repasa los criterios con menos aciertos.':'Repasa los temas y las tarjetas, y vuelve a intentarlo.'}</p>
+      <button class="btn" id="again">Nuevo simulacro</button></div>`);
+    area.prepend(rs); $('#again',rs).onclick=()=>runExam(area); window.scrollTo(0,0);
+  };
+}
+
+/* ---------- Herramientas ---------- */
+function viewTools(app){
+  app.appendChild(el('<h1>Herramientas de cálculo</h1>'));
+  /* PPC */
+  const ppc=el(`<div class="card"><h3>PPC – Porcentaje de Plan Cumplido</h3>
+    <p class="muted small">PPC = tareas completadas ÷ tareas programadas × 100. Registra varias semanas para ver la tendencia.</p>
+    <div class="row">Semana <input type="number" id="pw" min="1" style="width:70px"> Programadas <input type="number" id="pp" min="1"> Completadas <input type="number" id="pc" min="0"> <button class="btn" id="pa">Agregar</button> <button class="btn ghost" id="pr">Borrar todo</button></div>
+    <div id="pout"></div></div>`);
+  app.appendChild(ppc);
+  const drawPPC=()=>{
+    const o=$('#pout',ppc);
+    if(!state.ppc.length){o.innerHTML='<p class="muted small">Sin datos aún.</p>';return}
+    o.innerHTML=`<div class="chart">${state.ppc.map(r=>`<div style="height:${Math.max(r.v,3)}%"><span>${r.v}%</span></div>`).join('')}</div>
+      <div class="chart" style="height:auto;border:0;padding:0;margin:0">${state.ppc.map(r=>`<div style="background:none;color:var(--muted);height:auto;font-size:.72rem">S${esc(r.w)}</div>`).join('')}</div>
+      <p>Promedio: <b>${Math.round(state.ppc.reduce((a,r)=>a+r.v,0)/state.ppc.length)}%</b>. ${state.ppc[state.ppc.length-1].v<70?'Última semana baja: aplica los 5 porqués a las tareas incumplidas.':'Sigue analizando las causas de incumplimiento para mejorar.'}</p>`;
+  };
+  $('#pw',ppc).value=state.ppc.length+1;
+  $('#pa',ppc).onclick=()=>{
+    const p=+$('#pp',ppc).value,c=+$('#pc',ppc).value,w=$('#pw',ppc).value;
+    if(!(p>0)||c<0||c>p){alert('Revisa los valores: completadas no puede superar a programadas.');return}
+    state.ppc.push({w,p,c,v:Math.round(c/p*100)});save();drawPPC();$('#pw',ppc).value=state.ppc.length+1;
+  };
+  $('#pr',ppc).onclick=()=>{if(confirm('¿Borrar el registro de PPC?')){state.ppc=[];save();drawPPC()}};
+  drawPPC();
+  /* Takt */
+  const tk=el(`<div class="card"><h3>Takt-time</h3><p class="muted small">Takt-time = tiempo disponible ÷ demanda del cliente.</p>
+    <div class="row">Tiempo disponible (días) <input type="number" id="tt" value="60" min="0"> Demanda (n.º de sectores / unidades) <input type="number" id="td" value="12" min="1"> <button class="btn" id="tc">Calcular</button></div><p id="tout"></p></div>`);
+  app.appendChild(tk);
+  const calcT=()=>{const t=+$('#tt',tk).value,d=+$('#td',tk).value;$('#tout',tk).innerHTML=d>0?`Takt-time = <b>${(t/d).toFixed(2)}</b> días por unidad (cada cuadrilla debe completar un sector cada ${(t/d).toFixed(2)} días).`:'La demanda debe ser mayor que cero.'};
+  $('#tc',tk).onclick=calcT; calcT();
+  /* Nivel de actividad */
+  const na=el(`<div class="card"><h3>Nivel de actividad (TP / TC / TNC)</h3><p class="muted small">Ingresa observaciones de un muestreo de trabajo (cantidad de veces que viste a los trabajadores en cada tipo de actividad).</p>
+    <div class="row">Productivo (TP) <input type="number" id="a1" value="40" min="0"> Contributorio (TC) <input type="number" id="a2" value="35" min="0"> No contributorio (TNC) <input type="number" id="a3" value="25" min="0"> <button class="btn" id="ac">Calcular</button></div><div id="aout"></div></div>`);
+  app.appendChild(na);
+  const calcA=()=>{
+    const a=[+$('#a1',na).value,+$('#a2',na).value,+$('#a3',na).value],s=a.reduce((x,y)=>x+y,0);
+    if(!s){$('#aout',na).textContent='Ingresa datos.';return}
+    const p=a.map(x=>Math.round(x/s*100));
+    $('#aout',na).innerHTML=`<div class="chart" style="height:110px">${['TP','TC','TNC'].map((n,i)=>`<div style="height:${Math.max(p[i],3)}%;background:${['var(--ok)','var(--brand)','var(--bad)'][i]};color:#111"><span>${n} ${p[i]}%</span></div>`).join('')}</div>
+    <p>${p[2]>=20?'Los TNC superan el 20%: busca esperas, reprocesos y falta de recursos; considera carta balance y buffers.':'Los TNC son moderados: enfoca en convertir TC en menos tiempo para ganar más TP.'}</p>`;
+  };
+  $('#ac',na).onclick=calcA; calcA();
+  /* Notas */
+  const gr=el(`<div class="card"><h3>Calculadora de nota final</h3><p class="muted small">Nota final = (N1 + N2 + N3) / 3, cada una de 0 a 20.</p>
+    <div class="row">N1 <input type="number" id="g1" min="0" max="20" step="0.5"> N2 <input type="number" id="g2" min="0" max="20" step="0.5"> N3 <input type="number" id="g3" min="0" max="20" step="0.5"></div><p id="gout" class="big"></p></div>`);
+  app.appendChild(gr);
+  ['g1','g2','g3'].forEach((id,i)=>{const e=$('#'+id,gr);e.value=state.grades['n'+(i+1)];e.oninput=()=>{state.grades['n'+(i+1)]=e.value;save();calcG()}});
+  const calcG=()=>{
+    const v=['g1','g2','g3'].map(id=>$('#'+id,gr).value);
+    const nums=v.filter(x=>x!=='').map(Number);
+    $('#gout',gr).textContent=nums.length?(nums.reduce((a,b)=>a+b,0)/(v.every(x=>x!=='')?3:nums.length)).toFixed(2):'—';
+    $('#gout',gr).title=v.every(x=>x!=='')?'Nota final':'Promedio parcial';
+  }; calcG();
+}
+
+/* ---------- Rúbrica ---------- */
+function viewRubric(app){
+  app.appendChild(el('<h1>Rúbrica de evaluación</h1>'));
+  app.appendChild(el('<div class="card"><p><b>Docente:</b> Mag. César Bracamonte Arriaran · <b>Maestría en Gerencia de la Construcción y Proyectos BIM</b></p><p>Tres evaluaciones complementarias, cada una de 0 a 20 puntos. <b>Nota final = (N1 + N2 + N3) / 3</b>.</p></div>'));
+  Object.entries(RUBRIC).forEach(([t,rows])=>{
+    app.appendChild(el(`<div class="card"><h3>${esc(t)}</h3><div class="tablewrap"><table><tr><th>Criterio</th><th>Puntaje máximo</th></tr>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${r[1]}</td></tr>`).join('')}<tr><th>Total</th><th>${rows.reduce((a,r)=>a+r[1],0)}</th></tr></table></div></div>`));
+  });
+  app.appendChild(el('<div class="card"><h3>Cómo usar esta guía para cada evaluación</h3><ul><li><b>N.° 2 (ensayo Lean):</b> elige una obra y usa los casos aplicados como plantilla: problema → análisis → solución → resultados. Cita a Brioso (2017), Karkoszka & Honorowicz (2009), Casini (2022) y Eastman (2011).</li><li><b>N.° 3 (examen final):</b> repasa tarjetas y practica con el simulacro.</li><li><b>N.° 1 (La Meta):</b> el libro no está en los PDF cargados.</li></ul></div>'));
+}
+
+route();
+</script>
+</body>
+</html>
